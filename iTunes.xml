@@ -1,0 +1,43 @@
+<export><workspace name="iTunes"><query name="Create Database" focus="false" active="true" content-source="as:9259051684179991335:" mode="xquery">xquery version "1.0-ml"; 
+
+import module namespace info = "http://marklogic.com/appservices/infostudio" at "/MarkLogic/appservices/infostudio/info.xqy";
+
+info:database-create("iTunes", 2)</query><query name="Throw the Entire XML doc into MarkLogic" focus="false" active="true" content-source="5594643177622989378:0:Apps" mode="xquery">xquery version "1.0-ml";
+
+xdmp:document-insert("/master.xml", xdmp:document-get("e:\iTunes Music Library.xml"))</query><query name="Take Master Doc and Create XML for each item" focus="false" active="true" content-source="5594643177622989378:0:Apps" mode="xquery">xquery version "1.0-ml";
+
+(: Will probably take around 10 minutes to load :)
+
+for $i in doc("/master.xml")/plist/dict/dict/dict
+let $id := xdmp:md5($i)
+
+return xdmp:document-insert( ("/"||$id||".xml"),
+element iTunes-item 
+{
+  element id {$id},
+  element original-data {($i/preceding-sibling::*, $i)}
+})
+
+
+
+</query><query name="Load using Spawn Function" focus="true" active="true" content-source="5594643177622989378:0:Apps" mode="xquery">xquery version "1.0-ml";
+
+for $i in doc("/master.xml")/plist/dict/dict/dict
+let $id := xdmp:md5($i)
+
+return
+xdmp:spawn-function(function() {
+
+xdmp:document-insert( ("/"||$id||".xml"),
+element iTunes-item 
+{
+  element id {$id},
+  element original-data {($i/preceding-sibling::*, $i)}
+}
+)},
+    &lt;options xmlns="xdmp:eval"&gt;
+        &lt;transaction-mode&gt;update-auto-commit&lt;/transaction-mode&gt;
+        &lt;database&gt;{xdmp:database("iTunes")}&lt;/database&gt;
+    &lt;/options&gt;
+)
+</query></workspace></export>
