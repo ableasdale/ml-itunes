@@ -1,12 +1,12 @@
-<export><workspace name="iTunes"><query name="Create Database" focus="false" active="true" content-source="as:9259051684179991335:" mode="xquery">xquery version "1.0-ml"; 
+<export><workspace name="iTunes"><query name="1. Create Database" focus="false" active="true" content-source="as:9259051684179991335:" mode="xquery">xquery version "1.0-ml"; 
 
 import module namespace info = "http://marklogic.com/appservices/infostudio" at "/MarkLogic/appservices/infostudio/info.xqy";
 
-info:database-create("iTunes", 2)</query><query name="Throw the Entire XML doc into MarkLogic" focus="false" active="true" content-source="5594643177622989378:0:Apps" mode="xquery">xquery version "1.0-ml";
+info:database-create("iTunes", 2)</query><query name="2. Throw the Entire XML doc into MarkLogic" focus="false" active="true" content-source="5594643177622989378:0:Apps" mode="xquery">xquery version "1.0-ml";
 
-xdmp:document-insert("/master.xml", xdmp:document-get("e:\iTunes Music Library.xml"))</query><query name="Take Master Doc and Create XML for each item" focus="false" active="true" content-source="5594643177622989378:0:Apps" mode="xquery">xquery version "1.0-ml";
+xdmp:document-insert("/master.xml", xdmp:document-get("e:\iTunes Music Library.xml"))</query><query name="Take Master Doc and Create XML for each item" focus="false" active="false" content-source="5594643177622989378:0:Apps" mode="xquery">xquery version "1.0-ml";
 
-(: Will probably take around 10 minutes to load :)
+(: Will probably take around 10 minutes to load - ABANDON :)
 
 for $i in doc("/master.xml")/plist/dict/dict/dict
 let $id := xdmp:md5($i)
@@ -20,7 +20,9 @@ element iTunes-item
 
 
 
-</query><query name="Load using Spawn Function" focus="true" active="true" content-source="5594643177622989378:0:Apps" mode="xquery">xquery version "1.0-ml";
+</query><query name="3. Load using Spawn Function" focus="true" active="true" content-source="5594643177622989378:0:Apps" mode="xquery">xquery version "1.0-ml";
+
+(: Farms out data loading to the task server: better :)
 
 for $i in doc("/master.xml")/plist/dict/dict/dict
 let $id := xdmp:md5($i)
@@ -32,7 +34,9 @@ xdmp:document-insert( ("/"||$id||".xml"),
 element iTunes-item 
 {
   element id {$id},
-  element original-data {($i/preceding-sibling::*, $i)}
+  for $j in $i/key
+  return element {xs:QName(replace($j, " ", "-") )} {xs:string($j/following-sibling::*[1])}, 
+  element original-iTunes-data {($i/preceding-sibling::*, $i)}
 }
 )},
     &lt;options xmlns="xdmp:eval"&gt;
@@ -40,4 +44,17 @@ element iTunes-item
         &lt;database&gt;{xdmp:database("iTunes")}&lt;/database&gt;
     &lt;/options&gt;
 )
-</query></workspace></export>
+</query><query name="Query 1" focus="false" active="true" content-source="5594643177622989378:0:Apps" mode="xquery">xquery version "1.0-ml";
+
+(: Example Data Element :)
+
+for $i in doc("/master.xml")/plist/dict/dict/dict[1 to 4]
+let $id := xdmp:md5($i)
+return
+element iTunes-item 
+{
+  element id {$id},
+  for $j in $i/key
+  return element {xs:QName(replace($j, " ", "-") )} {xs:string($j/following-sibling::*[1])}, 
+  element original-iTunes-data {($i/preceding-sibling::*, $i)}
+}</query></workspace></export>
