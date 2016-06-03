@@ -4,7 +4,7 @@ import module namespace info = "http://marklogic.com/appservices/infostudio" at 
 
 info:database-create("iTunes", 2)</query><query name="2. Throw the Entire XML doc into MarkLogic" focus="false" active="true" content-source="5594643177622989378:0:Apps" mode="xquery">xquery version "1.0-ml";
 
-xdmp:document-insert("/master.xml", xdmp:document-get("e:\iTunes Music Library.xml"))</query><query name="3. Load using Spawn Function" focus="true" active="true" content-source="5594643177622989378:0:Apps" mode="xquery">xquery version "1.0-ml";
+xdmp:document-insert("/master.xml", xdmp:document-get("e:\iTunes Music Library.xml"))</query><query name="3. Load using Spawn Function" focus="false" active="true" content-source="5594643177622989378:0:Apps" mode="xquery">xquery version "1.0-ml";
 
 (: Farms out data loading to the Task Server :)
 
@@ -41,4 +41,46 @@ element iTunes-item
   for $j in $i/key
   return element {xs:QName(replace($j, " ", "-") )} {xs:string($j/following-sibling::*[1])}, 
   element original-iTunes-data {($i/preceding-sibling::*[1], $i)}
-} :)</query></workspace></export>
+} :)</query><query name="Rudimentary Searches" focus="true" active="true" content-source="5594643177622989378:0:Apps" mode="xquery">xquery version "1.0-ml";
+
+(:
+xdmp:estimate(
+  cts:search(
+    doc(),
+    cts:element-value-query(xs:QName("Year"), "2013")
+  )
+) :)
+
+(:
+for $i in
+  cts:search(
+    doc(),
+    cts:element-value-query(xs:QName("Year"), "2015")
+  )
+return $i/iTunes-item/Artist
+:)
+
+for $i in 
+cts:search(
+    doc()/iTunes-item,
+      cts:element-value-query(xs:QName("Artist"), "Songhoy Blues")
+)
+return $i</query><query name="Get Additional Data from MusicBrainz" focus="false" active="true" content-source="5594643177622989378:0:Apps" mode="xquery">xquery version "1.0-ml";
+
+(: Ask MusicBrainz :)
+
+xdmp:http-get(
+   "http://musicbrainz.org/ws/2/artist/?query=artist:Portishead",
+ 
+ &lt;options xmlns="xdmp:http"&gt;
+    &lt;headers&gt;
+      &lt;User-Agent&gt;{"MyTestApplicationv1"}&lt;/User-Agent&gt;
+    &lt;/headers&gt;
+   &lt;/options&gt;)
+ (:
+ http://musicbrainz.org/ws/2/search/Portishead
+ &lt;options xmlns="xdmp:http-get"&gt;
+     &lt;format xmlns="xdmp:document-get"&gt;xml&lt;/format&gt;
+  &lt;/options&gt;
+)
+:)</query></workspace></export>
