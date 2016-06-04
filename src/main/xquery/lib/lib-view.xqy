@@ -61,35 +61,37 @@ declare function lib-view:navigation() as element(div) {
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dashboard <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="/">Overview</a></li>
-                            <li><a href="/bi-level.xqy">Bi-Level Database View</a></li>
-                            <li><a href="/data.xqy">Data</a></li>
-                            <li><a href="/hosts.xqy">Hosts</a></li>
-                            <li><a href="/servers.xqy">Servers</a></li>
-                            <li><a href="/databases.xqy">Databases</a></li>
-                            <li><a href="/forests.xqy">Forests</a></li>
+                            <li><a href="/">Overview</a></li>                            
                         </ul>
                     </li>
-                    <li><a href="/security.xqy">Security</a></li>
+                    <!-- li><a href="/security.xqy">Security</a></li-->
                     
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Documentation <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="/documentation/messages.xqy">Exceptions</a></li>
-                            <li><a href="/documentation/functions.xqy">Functions</a></li>
-                            <li><a href="/wp-admin/editor.xqy">Schemas</a></li>
+                            <li><a href="#">TODO</a></li>
                         </ul>
                     </li>
 
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Query Tools <span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Music Tools <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="/query-tools/queries.xqy">Running Queries</a></li>
-                            <li><a href="/query-tools/plan.xqy">Plan Manager</a></li>
-                            <li><a href="/query-tools/termkey.xqy">Term Key Lookup</a></li>
+                            <li><a href="#">TODO</a></li>
                         </ul>
                     </li>
-                    <li><a href="/log.xqy">Logs</a></li>
+                    <li><a href="#">TODO</a></li>
+
+                    <form class="navbar-form pull-right" action="/search" method="post">
+                    <div class="input-group">
+                        <input type="text" name="id" class="form-control" placeholder="Search" />
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit">
+                        <span class="glyphicon glyphicon glyphicon-search"></span>
+                    </button>
+                </span>
+                    </div>
+                </form>
+
                 </ul>
             </div>
         </div>
