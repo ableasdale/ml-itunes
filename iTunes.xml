@@ -1,10 +1,10 @@
-<export><workspace name="iTunes"><query name="1. Create Database" focus="false" active="true" content-source="as:9259051684179991335:" mode="xquery">xquery version "1.0-ml"; 
+<export><workspace name="iTunes"><query name="1. Create Database" focus="false" active="true" content-source="7493747543407369019:0:Apps" mode="xquery">xquery version "1.0-ml"; 
 
 import module namespace info = "http://marklogic.com/appservices/infostudio" at "/MarkLogic/appservices/infostudio/info.xqy";
 
-info:database-create("iTunes", 2)</query><query name="2. Throw the Entire XML doc into MarkLogic" focus="false" active="true" content-source="5594643177622989378:0:Apps" mode="xquery">xquery version "1.0-ml";
+info:database-create("iTunes", 2)</query><query name="2. Throw the Entire XML doc into MarkLogic" focus="false" active="true" content-source="7493747543407369019:0:Apps" mode="xquery">xquery version "1.0-ml";
 
-xdmp:document-insert("/master.xml", xdmp:document-get("e:\iTunes Music Library.xml"))</query><query name="3. Load using Spawn Function" focus="false" active="true" content-source="5594643177622989378:0:Apps" mode="xquery">xquery version "1.0-ml";
+xdmp:document-insert("/master.xml", xdmp:document-get("/Users/ableasdale/Documents/workspace/ml-itunes/iTunes Music Library.xml"))</query><query name="3. Load using Spawn Function" focus="false" active="true" content-source="7493747543407369019:0:Apps" mode="xquery">xquery version "1.0-ml";
 
 (: Farms out data loading to the Task Server :)
 
@@ -41,7 +41,7 @@ element iTunes-item
   for $j in $i/key
   return element {xs:QName(replace($j, " ", "-") )} {xs:string($j/following-sibling::*[1])}, 
   element original-iTunes-data {($i/preceding-sibling::*[1], $i)}
-} :)</query><query name="Rudimentary Searches" focus="true" active="true" content-source="5594643177622989378:0:Apps" mode="xquery">xquery version "1.0-ml";
+} :)</query><query name="Rudimentary Searches" focus="false" active="true" content-source="7493747543407369019:0:Apps" mode="xquery">xquery version "1.0-ml";
 
 (:
 xdmp:estimate(
@@ -65,22 +65,99 @@ cts:search(
     doc()/iTunes-item,
       cts:element-value-query(xs:QName("Artist"), "Songhoy Blues")
 )
-return $i</query><query name="Get Additional Data from MusicBrainz" focus="false" active="true" content-source="5594643177622989378:0:Apps" mode="xquery">xquery version "1.0-ml";
+return $i</query><query name="Get Additional Data from MusicBrainz" focus="true" active="true" content-source="5594643177622989378:0:Apps" mode="xquery">xquery version "1.0-ml";
 
+declare namespace mb = "http://musicbrainz.org/ns/mmd-2.0#";
 (: Ask MusicBrainz :)
 
+(:
 xdmp:http-get(
-   "http://musicbrainz.org/ws/2/artist/?query=artist:Portishead",
+   "http://musicbrainz.org/ws/2/artist/?query=artist:Air",
  
  &lt;options xmlns="xdmp:http"&gt;
     &lt;headers&gt;
-      &lt;User-Agent&gt;{"MyTestApplicationv1"}&lt;/User-Agent&gt;
+      &lt;User-Agent&gt;{"MarkLogic iTunes v0.1"}&lt;/User-Agent&gt;
     &lt;/headers&gt;
-   &lt;/options&gt;)
+   &lt;/options&gt;)[2]//mb:artist :)
  (:
  http://musicbrainz.org/ws/2/search/Portishead
  &lt;options xmlns="xdmp:http-get"&gt;
      &lt;format xmlns="xdmp:document-get"&gt;xml&lt;/format&gt;
   &lt;/options&gt;
 )
-:)</query></workspace></export>
+ "http://musicbrainz.org/ws/2/title/?query=artist:Portishead&amp;amp;title=Dummy",
+:)
+xdmp:http-get(
+  (: "http://musicbrainz.org/ws/2/freedb/?query=artist:Portishead&amp;amp;title=Dummy",:)
+(:"http://musicbrainz.org/ws/2/freedb/?query=discid:660a820a", :)
+(:"http://musicbrainz.org/ws/2/recording/?query=Dummy%20AND%20Portishead", :)
+  
+  (:"http://musicbrainz.org/ws/2/recording/?query=&amp;quot;Dummy&amp;quot;%20AND%20artist:Portishead",:)
+  (: "http://musicbrainz.org/ws/2/freedb/?query=&amp;quot;Dummy&amp;quot;%20AND%20artist:Portishead", :)
+ 
+    (: "http://musicbrainz.org/ws/2/release-group/48140466-cff6-3222-bd55-63c27e43190d", :)
+(:
+"http://musicbrainz.org/ws/2/artist/8f6bd1e4-fbe1-4f50-aa9b-94c450ec0f11", :)
+(:"http://musicbrainz.org/ws/2/artist/8f6bd1e4-fbe1-4f50-aa9b-94c450ec0f11/releases", :)
+
+
+(: This will get the id of an artist from search :)
+(: https://beta.musicbrainz.org/ws/2/artist/?query=portishead
+ 8f6bd1e4-fbe1-4f50-aa9b-94c450ec0f11 :)
+ 
+ (: when you have that, you can get all albums and EPs associated :)
+ "http://musicbrainz.org/ws/2/release-group?artist=8f6bd1e4-fbe1-4f50-aa9b-94c450ec0f11&amp;amp;type=album|ep",
+ 
+ 
+ &lt;options xmlns="xdmp:http"&gt;
+    &lt;headers&gt;
+      &lt;User-Agent&gt;{"MarkLogic iTunes v0.1"}&lt;/User-Agent&gt;
+    &lt;/headers&gt;
+   &lt;/options&gt;)[2]</query><query name="Query 2" focus="false" active="true" content-source="as:7653802559119570711:" mode="xquery">xquery version "1.0-ml";
+
+(:
+for $i in (//iTunes-item)[1 to 10]
+order by $i/Track-ID
+return $i :)
+
+
+(:
+fn:subsequence(
+   (for $i in (//iTunes-item/Track-ID)
+order by fn:number($i)
+return $i/..),
+   1,
+   10
+) :)
+
+(:
+cts:search(doc()/iTunes-item,
+  cts:element-value-query(xs:QName("Artist"), "10,000 Maniacs")
+)
+:)
+(:
+cts:search(doc()/iTunes-item, :)
+(: for $i in 
+cts:search(
+  doc()/iTunes-item,
+  cts:element-value-query(xs:QName("Track-ID"), xs:string(cts:element-values(xs:QName("Track-ID"), (), ("limit=100") )))
+)
+return $i/Track-ID :)
+
+for $i in cts:element-values(xs:QName("Track-ID"), (), ("limit=100"))
+return doc()/iTunes-item/Track-ID[. eq $i]
+  
+   
+  
+  (:cts:element-query(xs:QName("ns1:contextElement") :)
+</query><query name="Get Additional Data from Discogs" focus="false" active="true" content-source="5594643177622989378:0:Apps" mode="xquery">xquery version "1.0-ml";
+
+xdmp:http-get(
+   "https://api.discogs.com/releases/249504",
+ 
+ &lt;options xmlns="xdmp:http"&gt;
+    &lt;headers&gt;
+      &lt;User-Agent&gt;{"MarkLogic iTunes v0.1"}&lt;/User-Agent&gt;
+    &lt;/headers&gt;
+   &lt;/options&gt;)[2]
+</query><query name="Get Additional Data from Echonest" focus="false" active="true" content-source="as:7653802559119570711:" mode="xquery">xquery version "1.0-ml";&#13;declare namespace html = "http://www.w3.org/1999/xhtml";&#13;&lt;p&gt;hello world&lt;/p&gt;</query></workspace></export>
