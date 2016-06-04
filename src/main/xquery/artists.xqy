@@ -5,7 +5,7 @@ import module namespace lib-view = "http://www.marklogic.com/sysadmin/lib-view" 
 declare function local:list-artists(){
 	element ul {
 		for $i in cts:element-values(xs:QName("Artist"), (), ("limit=20000"))
-		return element li {element a {attribute href {"/artist.xqy?artist="||xdmp:url-encode($i)},$i}}	
+		return element li {element a {attribute href {"/artist.xqy?artist="||xdmp:url-encode($i, fn:true())},$i}}	
  	}
 };
 
