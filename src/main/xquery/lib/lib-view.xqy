@@ -61,7 +61,8 @@ declare function lib-view:navigation() as element(div) {
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dashboard <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="/">Overview</a></li>                            
+                            <li><a href="/">Overview</a></li>  
+                            <li><a href="/artists.xqy">Artists</a></li>                           
                         </ul>
                     </li>
                     <!-- li><a href="/security.xqy">Security</a></li-->
@@ -76,22 +77,21 @@ declare function lib-view:navigation() as element(div) {
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Music Tools <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">TODO</a></li>
+                            <li><a href="#"><span class="glyphicon glyphicon-download-alt" aria-hidden="true">{" "}</span> Export iTunes XML</a></li>
                         </ul>
                     </li>
                     <li><a href="#">TODO</a></li>
 
-                    <form class="navbar-form pull-right" action="/search" method="post">
-                    <div class="input-group">
-                        <input type="text" name="id" class="form-control" placeholder="Search" />
-                <span class="input-group-btn">
-                    <button class="btn btn-default" type="submit">
-                        <span class="glyphicon glyphicon glyphicon-search"></span>
-                    </button>
-                </span>
-                    </div>
-                </form>
-
+                    <form class="navbar-form pull-right" action="/search.xqy" method="post">
+                        <div class="input-group">
+                            <input type="text" name="term" class="form-control" placeholder="Search" />
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit">
+                                    <span class="glyphicon glyphicon glyphicon-search"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </form>
                 </ul>
             </div>
         </div>
