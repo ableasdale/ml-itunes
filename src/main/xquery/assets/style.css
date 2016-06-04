@@ -1,0 +1,10 @@
+body {
+	text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    color: #333333;
+    font-style: normal;
+    font-family: "Myriad Set Pro", "Lucida Grande", "Helvetica Neue", "Helvetica", "Arial", "Verdana", "sans-serif";
+    font-size: 1.3em;
+    line-height: 1.4444;
+    font-weight: 400;
+}

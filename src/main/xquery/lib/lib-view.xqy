@@ -15,7 +15,7 @@ declare function lib-view:create-bootstrap-page($title as xs:string, $content as
         element meta {attribute http-equiv {"X-UA-Compatible"}, attribute content {"IE=edge"}},
         element meta {attribute name {"viewport"}, attribute content {"width=device-width, initial-scale=1"}},
         element title {$title},
-                element link {
+        element link {
             attribute rel {"stylesheet"},
             attribute href {"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"},
             attribute integrity {"sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"},
@@ -26,11 +26,11 @@ declare function lib-view:create-bootstrap-page($title as xs:string, $content as
             attribute href {"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"},
             attribute integrity {"sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r"},
             attribute crossorigin {"anonymous"}
+        },
+        element link { 
+            attribute rel {"stylesheet"},
+            attribute href {"/assets/style.css"}
         }
-
-
-
-
     },
     element body { $content }
     },
