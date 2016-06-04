@@ -6,15 +6,12 @@ import module namespace lib-view = "http://www.marklogic.com/sysadmin/lib-view" 
 
 declare variable $artist := xdmp:get-request-field("artist");
 
-declare function local:musicbrainz(){
-	xdmp:http-get(
-   "http://musicbrainz.org/ws/2/artist/?query=artist:"||xdmp:url-encode($artist,fn:true()),
- 
- <options xmlns="xdmp:http">
-    <headers>
-      <User-Agent>{"MarkLogic iTunes v0.1"}</User-Agent>
-    </headers>
-   </options>)[2]
+declare function local:create-uri($item as xs:string){
+  ("/"||xdmp:url-encode($item, fn:true())||".xml")
+};
+
+declare function local:create-lfm-uri($item as xs:string){
+  ("/lfm/"||xdmp:url-encode($item, fn:true())||".xml")
 };
 
 declare function local:do-search(){
@@ -48,7 +45,9 @@ lib-view:create-bootstrap-page("iTunes App",
 		element div {attribute class { "row" },
 			<h2>Artist <small>{$artist}</small></h2>,
 			<h3>MusicBrainz</h3>,
-			<textarea>{local:musicbrainz()}</textarea>,
+			<textarea>{fn:doc(local:create-uri($artist))}</textarea>,
+			<h3>Last FM</h3>,
+			<textarea>{fn:doc(local:create-lfm-uri($artist))}</textarea>,
 			<h3>In iTunes</h3>,
 			local:do-search()
 		}
