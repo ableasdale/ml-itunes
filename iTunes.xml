@@ -65,7 +65,7 @@ cts:search(
     doc()/iTunes-item,
       cts:element-value-query(xs:QName("Artist"), "Songhoy Blues")
 )
-return $i</query><query name="Get Additional Data from MusicBrainz" focus="true" active="true" content-source="5594643177622989378:0:Apps" mode="xquery">xquery version "1.0-ml";
+return $i</query><query name="Get Additional Data from MusicBrainz" focus="false" active="true" content-source="5594643177622989378:0:Apps" mode="xquery">xquery version "1.0-ml";
 
 declare namespace mb = "http://musicbrainz.org/ns/mmd-2.0#";
 (: Ask MusicBrainz :)
@@ -105,9 +105,10 @@ xdmp:http-get(
 (: https://beta.musicbrainz.org/ws/2/artist/?query=portishead
  8f6bd1e4-fbe1-4f50-aa9b-94c450ec0f11 :)
  
- (: when you have that, you can get all albums and EPs associated :)
- "http://musicbrainz.org/ws/2/release-group?artist=8f6bd1e4-fbe1-4f50-aa9b-94c450ec0f11&amp;amp;type=album|ep",
+ (: when you have that, you can get all albums and EPs associated 
+ "http://musicbrainz.org/ws/2/release-group?artist=8f6bd1e4-fbe1-4f50-aa9b-94c450ec0f11&amp;amp;type=album|ep",:)
  
+ "http://musicbrainz.org/ws/2/release-group?artist=4dca4bb2-23ba-4103-97e6-5810311db33a&amp;amp;type=album|ep",
  
  &lt;options xmlns="xdmp:http"&gt;
     &lt;headers&gt;
@@ -160,4 +161,40 @@ xdmp:http-get(
       &lt;User-Agent&gt;{"MarkLogic iTunes v0.1"}&lt;/User-Agent&gt;
     &lt;/headers&gt;
    &lt;/options&gt;)[2]
-</query><query name="Get Additional Data from Echonest" focus="false" active="true" content-source="as:7653802559119570711:" mode="xquery">xquery version "1.0-ml";&#13;declare namespace html = "http://www.w3.org/1999/xhtml";&#13;&lt;p&gt;hello world&lt;/p&gt;</query></workspace></export>
+</query><query name="Get Additional Data from Echonest" focus="false" active="true" content-source="as:7653802559119570711:" mode="xquery">xquery version "1.0-ml";&#13;declare namespace html = "http://www.w3.org/1999/xhtml";&#13;&lt;p&gt;hello world&lt;/p&gt;</query><query name="Get Artists" focus="false" active="true" content-source="as:7653802559119570711:" mode="xquery">xquery version "1.0-ml";
+
+count(cts:element-values(xs:QName("Artist"), (), ("limit=20000")))
+(: return doc()/iTunes-item/Track-ID[. eq $i] :)</query><query name="Create Artist Data Stubs" focus="false" active="true" content-source="as:7653802559119570711:" mode="xquery">xquery version "1.0-ml";
+
+declare function local:musicbrainz($artist as xs:string){
+	xdmp:http-get(
+   "http://musicbrainz.org/ws/2/artist/?query=artist:"||xdmp:url-encode($artist,fn:true()),
+ &lt;options xmlns="xdmp:http"&gt;
+    &lt;headers&gt;
+      &lt;User-Agent&gt;{"MarkLogic iTunes v0.1"}&lt;/User-Agent&gt;
+    &lt;/headers&gt;
+   &lt;/options&gt;)[2]
+};
+
+for $i in cts:element-values(xs:QName("Artist"), (), ("limit=20000"))
+
+return
+xdmp:spawn-function(function() {
+
+xdmp:document-insert( ("/"||xdmp:url-encode($i, fn:true())||".xml"), element ArtistData {
+    xdmp:http-get(
+   "http://musicbrainz.org/ws/2/artist/?query=artist:"||xdmp:url-encode($i,fn:true()),
+ &lt;options xmlns="xdmp:http"&gt;
+    &lt;headers&gt;
+      &lt;User-Agent&gt;{"MarkLogic iTunes v0.1"}&lt;/User-Agent&gt;
+    &lt;/headers&gt;
+   &lt;/options&gt;)[2]
+})	
+
+},
+    &lt;options xmlns="xdmp:eval"&gt;
+        &lt;transaction-mode&gt;update-auto-commit&lt;/transaction-mode&gt;
+        &lt;database&gt;{xdmp:database("iTunes")}&lt;/database&gt;
+    &lt;/options&gt;
+)</query><query name="Query 3" focus="true" active="true" content-source="as:7653802559119570711:" mode="xquery">xquery version "1.0-ml";
+xdmp:estimate(//ArtistData)</query></workspace></export>
