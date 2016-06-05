@@ -22,9 +22,9 @@ declare function local:show-table() {
 				for $j in cts:element-values(xs:QName("Track-ID"), (), ("limit=1000"))
 				let $i := doc()/iTunes-item/Track-ID[. eq $j]/..
 				return element tr {
-					element td {xs:string($i/Track-ID)},
-					element td {xs:string($i/Name)},
-					element td {<a href="artist.xqy?artist={xs:string($i/Artist)}">{xs:string($i/Artist)}</a>, " [",<a href="musicbrainz.xqy?artist={xs:string($i/Artist)}">MB</a>,"] [",<a href="lastfm.xqy?artist={xs:string($i/Artist)}">LFM</a>,"]"},
+					element td {<a href="/song.xqy?id={xs:string($i/Track-ID)}">{xs:string($i/Track-ID)}</a>},
+					element td {<a href="/song.xqy?id={xs:string($i/Track-ID)}">{xs:string($i/Name)}</a>},
+					element td {<a href="/artist.xqy?artist={xs:string($i/Artist)}">{xs:string($i/Artist)}</a>, " [",<a href="musicbrainz.xqy?artist={xs:string($i/Artist)}">MB</a>,"] [",<a href="lastfm.xqy?artist={xs:string($i/Artist)}">LFM</a>,"]"},
 					element td {xs:string($i/Album)},
 					element td {xs:string($i/Year)},
 					element td {fn:round-half-to-even( xs:double(xs:unsignedLong($i/Size) div 1024 div 1024), 2)}
