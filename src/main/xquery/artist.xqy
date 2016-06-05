@@ -2,7 +2,7 @@ xquery version "1.0-ml";
 
 declare namespace mb = "http://musicbrainz.org/ns/mmd-2.0#";
 
-import module namespace lib-view = "http://www.marklogic.com/sysadmin/lib-view" at "lib/lib-view.xqy";
+import module namespace lib-view = "http://www.xmlmachines.com/ml-itunes/lib-view" at "/lib/lib-view.xqy";
 
 declare variable $artist := xdmp:get-request-field("artist");
 
