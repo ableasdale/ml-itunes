@@ -4,7 +4,7 @@ module namespace lib-data = "http://www.xmlmachines.com/ml-itunes/lib-data";
 
 import module namespace config = "http://www.xmlmachines.com/ml-itunes/config" at "/lib/config.xqy";
 
-(: Data functions for calling Gracenote DB :)
+(: Data Functions for calling Gracenote DB :)
 
 declare private function lib-data:gracenote-album-request($artist-name as xs:string, $album-title as xs:string) { 
 xdmp:quote(
@@ -46,8 +46,7 @@ declare function lib-data:request-album-information-from-gracenote($artist-name 
   lib-data:request-from-gracenote(lib-data:gracenote-album-request($artist-name, $album-title))
 };
 
-(: End Gracenote DB calls :)
-
+(: End Data Functions for calling Gracenote DB :)
 
 (: Data Functions for Last FM :)
 
@@ -55,6 +54,8 @@ declare function lib-data:request-artist-information-from-lastfm($artist-name as
 xdmp:http-get( 
   $config:LAST-FM-API-URI||"?method=artist.getinfo&amp;artist="||xdmp:url-encode($artist-name,fn:true())||"&amp;api_key="||$config:LAST-FM-URI-KEY)  
 };
+
+(: End Data Functions for Last FM :)
 
 (: Data Functions for Musicbrainz :)
 
@@ -68,3 +69,12 @@ xdmp:http-get(
   </options>)
 };
 
+(: End Data Functions for Musicbrainz :)
+
+(: Other API Functions :)
+
+ (: Discogs API is JSON ONLY :)
+declare function lib-data:lookup-release-on-discogs($release-id as xs:string) { 
+xdmp:http-get(
+   "https://api.discogs.com/releases/"||$release-id)
+};
