@@ -24,7 +24,7 @@ lib-view:create-bootstrap-page("iTunes App",
 	element div {attribute class { "container" },
 		lib-view:page-header("MarkLogic iTunes", "Artists", " "),
 		element div {attribute class { "row" },
-			<h2>Artists <small>TODO</small></h2>,
+			<h2>Artists&emsp;<small>TODO</small></h2>,
 			local:list-artists()
 		}
 	}
