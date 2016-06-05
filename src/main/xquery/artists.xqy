@@ -1,6 +1,6 @@
 xquery version "1.0-ml";
 
-import module namespace lib-view = "http://www.marklogic.com/sysadmin/lib-view" at "lib/lib-view.xqy";
+import module namespace lib-view = "http://www.xmlmachines.com/ml-itunes/lib-view" at "lib/lib-view.xqy";
 
 declare function local:list-artists(){
 	element ul {

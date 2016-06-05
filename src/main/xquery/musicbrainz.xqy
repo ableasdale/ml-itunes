@@ -11,7 +11,7 @@ xquery version "1.0-ml";
 (:https://developer.spotify.com/web-api/ JSON ONLY
 <id>72b3e198f0e0a8a9d32a752e36fbb75e</id><Track-ID>19959</Track-ID><Name>These Are Days</Name><Artist>10,000 Maniacs</Artist><Album-Artist>10,000 Maniacs</Album-Artist><Composer>Rob Buck</Composer><Album>MTV Unplugged</Album><Genre>Adult Alternative Pop</Genre><Kind>MPEG audio file</Kind><Size>5926370</Size><Total-Time>294321</Total-Time><Disc-Number>1</Disc-Number><Disc-Count>1</Disc-Count><Track-Number>1</Track-Number><Track-Count>14</Track-Count><Year>1993</Year><Date-Modified>2015-03-24T13:04:16Z</Date-Modified><Date-Added>2006-06-13T20:32:19Z</Date-Added><Bit-Rate>160</Bit-Rate><Sample-Rate>44100</Sample-Rate><Comments>Cleaned by TuneUp!</Comments><Artwork-Count>1</Artwork-Count><Persistent-ID>8A3EA83E83344C94</Persistent-ID><Track-Type>File</Track-Type>
 :)
-import module namespace lib-view = "http://www.marklogic.com/sysadmin/lib-view" at "lib/lib-view.xqy";
+import module namespace lib-view = "http://www.xmlmachines.com/ml-itunes/lib-view" at "lib/lib-view.xqy";
 
 declare variable $artist := xdmp:get-request-field("artist");
 

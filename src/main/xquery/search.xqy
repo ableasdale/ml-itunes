@@ -1,6 +1,6 @@
 xquery version "1.0-ml";
 
-import module namespace lib-view = "http://www.marklogic.com/sysadmin/lib-view" at "lib/lib-view.xqy";
+import module namespace lib-view = "http://www.xmlmachines.com/ml-itunes/lib-view" at "lib/lib-view.xqy";
 
 declare variable $term := xdmp:get-request-field("term");
 declare variable $match := cts:search(doc()/iTunes-item, cts:element-word-query(xs:QName("Artist"), $term));

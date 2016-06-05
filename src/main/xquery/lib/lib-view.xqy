@@ -1,6 +1,6 @@
 xquery version "1.0-ml";
 
-module namespace lib-view = "http://www.marklogic.com/sysadmin/lib-view";
+module namespace lib-view = "http://www.xmlmachines.com/ml-itunes/lib-view";
 
 declare function lib-view:create-bootstrap-page($title as xs:string, $content as element(div)){
     lib-view:create-bootstrap-page($title, $content, ())
@@ -98,6 +98,7 @@ declare function lib-view:navigation() as element(div) {
     </div>
 };
 
+(: Not relevant for this project 
 declare function lib-view:database-select() as element(div) {
     element div {attribute class {"dropdown"},
         element button {
@@ -117,7 +118,7 @@ declare function lib-view:database-select() as element(div) {
                 element li {element a {attribute href {concat("?db=", $x)}, $x}}
         }
     }
-};
+}; :)
 
 declare function lib-view:page-header($title as xs:string, $subtitle as xs:string, $dropdown as item()?) as element(div)+ {
         element div {attribute class {"row"},

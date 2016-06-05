@@ -49,12 +49,12 @@ declare function lib-data:request-album-information-from-gracenote($artist-name 
 (: End Gracenote DB calls :)
 
 
-(: TODO Data Functions for Last FM :)
+(: Data Functions for Last FM :)
 
 declare function lib-data:request-artist-information-from-lastfm($artist-name as xs:string) { 
 xdmp:http-get( 
   $config:LAST-FM-API-URI||"?method=artist.getinfo&amp;artist="||xdmp:url-encode($artist-name,fn:true())||"&amp;api_key="||$config:LAST-FM-URI-KEY)  
 };
 
-(: Data Functions for Musicbrainz :)
+(: TODO Data Functions for Musicbrainz :)
 
