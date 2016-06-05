@@ -179,28 +179,18 @@ declare function local:create-uri($item as xs:string){
   ("/"||xdmp:url-encode($item, fn:true())||".xml")
 };
 
-declare function local:musicbrainz($artist as xs:string){
-	xdmp:http-get(
-   "http://musicbrainz.org/ws/2/artist/?query=artist:"||xdmp:url-encode($artist,fn:true()),
- &lt;options xmlns="xdmp:http"&gt;
-    &lt;headers&gt;
-      &lt;User-Agent&gt;{"MarkLogic iTunes v0.1"}&lt;/User-Agent&gt;
-    &lt;/headers&gt;
-   &lt;/options&gt;)
-};
-
 declare function local:has-meta($item as xs:string) as xs:boolean {
   fn:local-name(fn:doc(local:create-uri($item))/node()) eq "ArtistData"
 };
 
-for $i in cts:element-values(xs:QName("Artist"), (), ("limit=2000"))
+for $i in cts:element-values(xs:QName("Artist"), (), ("limit=3000"))
 return if(local:has-meta($i))
 then(xdmp:log("Skipping: " || $i))
 else
 
 xdmp:spawn-function(function() {
 (: arbitrary sleep so I don't get blocked! :)
-let $_ := xdmp:sleep(xdmp:random(2000))
+let $_ := xdmp:sleep(xdmp:random(2500))
 return
 let $response := xdmp:http-get( (: https://beta.musicbrainz.org  http://musicbrainz.org :)
    "http://musicbrainz.org/ws/2/artist/?query=artist:"||xdmp:url-encode($i,fn:true()),
@@ -297,4 +287,6 @@ xdmp:http-post(
        &lt;/headers&gt;
         &lt;verify-cert&gt;false&lt;/verify-cert&gt;
      &lt;/options&gt;) 
- </query></workspace></export>
+ </query><query name="Query 4" focus="false" active="false" content-source="as:7653802559119570711:" mode="xquery">xquery version "1.0-ml";
+
+</query></workspace></export>
