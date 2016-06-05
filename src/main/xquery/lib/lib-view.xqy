@@ -81,18 +81,17 @@ declare function lib-view:navigation() as element(div) {
                         </ul>
                     </li>
                     <li><a href="#">TODO</a></li>
-
-                    <form class="navbar-form pull-right" action="/search.xqy" method="post">
-                        <div class="input-group">
-                            <input type="text" name="term" class="form-control" placeholder="Search" />
-                            <span class="input-group-btn">
-                                <button class="btn btn-default" type="submit">
-                                    <span class="glyphicon glyphicon glyphicon-search"></span>
-                                </button>
-                            </span>
-                        </div>
-                    </form>
                 </ul>
+                <form class="navbar-form pull-right" action="/search.xqy" method="post">
+                    <div class="input-group">
+                        <input type="text" name="term" class="form-control" placeholder="Search" />
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="submit">
+                                <span class="glyphicon glyphicon glyphicon-search"></span>
+                            </button>
+                        </span>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
