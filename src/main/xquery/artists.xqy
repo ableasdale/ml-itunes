@@ -5,7 +5,8 @@ import module namespace lib-view = "http://www.xmlmachines.com/ml-itunes/lib-vie
 declare function local:list-artists(){
 	element ul {
 		for $i in cts:element-values(xs:QName("Artist"), (), ("limit=20000"))
-		return element li {element a {attribute href {"/artist.xqy?artist="||xdmp:url-encode($i, fn:true())},$i}}	
+		order by cts:frequency($i) descending
+		return element li {element a {attribute href {"/artist.xqy?artist="||xdmp:url-encode($i, fn:true())},$i}, " &emsp;(",cts:frequency($i),")"}	
  	}
 };
 
