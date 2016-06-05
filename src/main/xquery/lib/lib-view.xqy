@@ -157,7 +157,7 @@ declare function lib-view:create-thead-element($headers as xs:string*) as elemen
 declare function lib-view:format-track-time($time as xs:integer) (:as xs:string :) {
     (:let $duration := xs:duration("PT" || fn:round($time div 1000) || "S" ) :)
     (: TODO - Picture format omits hours - I might want to add this back in -- conditionally.. [H01]:[m01]:[s01] - for those times that need it :)
-    fn:format-dateTime(xs:dateTime("1970-01-01T00:00:00-00:00") + xs:dayTimeDuration(xs:duration("PT" || fn:round($time div 1000) || "S")),"[m1]:[s01]")
+    fn:format-dateTime(xs:dateTime("1970-01-01T00:00:00-00:00") + xs:dayTimeDuration(xs:duration("PT" || fn:round($time div 1000) || "S")),"[H01]:[m01]:[s01]") (: [m1]:[s01]") :)
     (: return $duration - xs:time("00:00:00") :)
     (: fn:minutes-from-duration($duration)||":"||fn:seconds-from-duration($duration) :)
 };
