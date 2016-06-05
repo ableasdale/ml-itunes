@@ -120,7 +120,7 @@ declare function lib-view:database-select() as element(div) {
 }; :)
 
 declare function lib-view:generate-table-headings-for-itunes-entries(){
-    lib-view:create-thead-element(("ID", "Title", "Artist", "Album", "Year", "Size (MB)"))
+    lib-view:create-thead-element(("ID", "Title", "Artist", "Album", "Year", "Time","Size (MB)"))
 };
 
 declare function lib-view:generate-table-row-from-itunes-entry($i as element(iTunes-item)) as element(tr) {
@@ -130,6 +130,8 @@ declare function lib-view:generate-table-row-from-itunes-entry($i as element(iTu
         element td {<a href="/artist.xqy?artist={xs:string($i/Artist)}">{xs:string($i/Artist)}</a>, " [",<a href="musicbrainz.xqy?artist={xs:string($i/Artist)}">MB</a>,"] [",<a href="lastfm.xqy?artist={xs:string($i/Artist)}">LFM</a>,"]"},
         element td {xs:string($i/Album)},
         element td {xs:string($i/Year)},
+        (: Total time is in miliseconds :)
+        element td { xs:duration("PT" || fn:round(xs:integer($i/Total-Time) div 1000) || "S" )  },
         element td {fn:round-half-to-even( xs:double(xs:unsignedLong($i/Size) div 1024 div 1024), 2)}
     }
 };
