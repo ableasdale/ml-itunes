@@ -41,7 +41,7 @@ element iTunes-item
   for $j in $i/key
   return element {xs:QName(replace($j, " ", "-") )} {xs:string($j/following-sibling::*[1])}, 
   element original-iTunes-data {($i/preceding-sibling::*[1], $i)}
-} :)</query><query name="Rudimentary Searches" focus="false" active="true" content-source="7493747543407369019:0:Apps" mode="xquery">xquery version "1.0-ml";
+} :)</query><query name="Rudimentary Searches" focus="false" active="true" content-source="as:7653802559119570711:" mode="xquery">xquery version "1.0-ml";
 
 (:
 xdmp:estimate(
@@ -60,12 +60,15 @@ for $i in
 return $i/iTunes-item/Artist
 :)
 
+(:
 for $i in 
 cts:search(
     doc()/iTunes-item,
       cts:element-value-query(xs:QName("Artist"), "Songhoy Blues")
 )
-return $i</query><query name="Get Additional Data from MusicBrainz" focus="false" active="true" content-source="5594643177622989378:0:Apps" mode="xquery">xquery version "1.0-ml";
+return $i :)
+
+</query><query name="Get Additional Data from MusicBrainz" focus="false" active="true" content-source="5594643177622989378:0:Apps" mode="xquery">xquery version "1.0-ml";
 
 declare namespace mb = "http://musicbrainz.org/ns/mmd-2.0#";
 (: Ask MusicBrainz :)
@@ -190,14 +193,14 @@ declare function local:has-meta($item as xs:string) as xs:boolean {
   fn:local-name(fn:doc(local:create-uri($item))/node()) eq "ArtistData"
 };
 
-for $i in cts:element-values(xs:QName("Artist"), (), ("limit=510"))
+for $i in cts:element-values(xs:QName("Artist"), (), ("limit=2000"))
 return if(local:has-meta($i))
 then(xdmp:log("Skipping: " || $i))
 else
 
 xdmp:spawn-function(function() {
 (: arbitrary sleep so I don't get blocked! :)
-let $_ := xdmp:sleep(xdmp:random(9000))
+let $_ := xdmp:sleep(xdmp:random(2000))
 return
 let $response := xdmp:http-get( (: https://beta.musicbrainz.org  http://musicbrainz.org :)
    "http://musicbrainz.org/ws/2/artist/?query=artist:"||xdmp:url-encode($i,fn:true()),
@@ -219,7 +222,7 @@ xdmp:document-insert( ("/"||xdmp:url-encode($i, fn:true())||".xml"), element Art
     &lt;/options&gt;
 ) </query><query name="Query 3" focus="false" active="false" content-source="as:7653802559119570711:" mode="xquery">xquery version "1.0-ml";
 
-xdmp:estimate(//ArtistData)</query><query name="LastFM Data Stubs" focus="true" active="true" content-source="as:7653802559119570711:" mode="xquery">xquery version "1.0-ml";
+xdmp:estimate(//ArtistData)</query><query name="LastFM Data Stubs" focus="false" active="true" content-source="as:7653802559119570711:" mode="xquery">xquery version "1.0-ml";
 
 declare variable $LFM-URI-KEY as xs:string := "xxx";
 declare variable $LFM-ROOT-ELEMENT as xs:string := "LastFMArtistData";
@@ -258,4 +261,40 @@ xdmp:document-insert( local:create-uri($i), element {xs:QName($LFM-ROOT-ELEMENT)
         &lt;database&gt;{xdmp:database("iTunes")}&lt;/database&gt;
     &lt;/options&gt;
 ) 
-</query><query name="Query 5" focus="false" active="true" content-source="as:7653802559119570711:" mode="xquery">xquery version "1.0-ml";&#13;declare namespace html = "http://www.w3.org/1999/xhtml";&#13;&lt;p&gt;hello world&lt;/p&gt;</query></workspace></export>
+</query><query name="Gracenote API" focus="true" active="true" content-source="as:7653802559119570711:" mode="xquery">xquery version "1.0-ml";
+
+declare variable $payload := xdmp:quote(
+&lt;QUERIES&gt;
+  &lt;LANG&gt;eng&lt;/LANG&gt;
+  &lt;AUTH&gt;
+    &lt;CLIENT&gt;xxx&lt;/CLIENT&gt;
+    &lt;USER&gt;yyy&lt;/USER&gt;
+  &lt;/AUTH&gt;
+  &lt;QUERY CMD="ALBUM_SEARCH"&gt;
+    &lt;TEXT TYPE="ARTIST"&gt;flying lotus&lt;/TEXT&gt;
+    &lt;TEXT TYPE="ALBUM_TITLE"&gt;until the quiet comes&lt;/TEXT&gt;
+    &lt;!-- for 1 track do: TEXT TYPE="TRACK_TITLE"&gt;all in&lt;/TEXT--&gt;
+      &lt;OPTION&gt;
+      &lt;PARAMETER&gt;SELECT_EXTENDED&lt;/PARAMETER&gt;
+      &lt;VALUE&gt;COVER,REVIEW,ARTIST_BIOGRAPHY,ARTIST_IMAGE,ARTIST_OET,MOOD,TEMPO&lt;/VALUE&gt;
+    &lt;/OPTION&gt;
+    &lt;OPTION&gt;
+      &lt;PARAMETER&gt;SELECT_DETAIL&lt;/PARAMETER&gt;
+      &lt;VALUE&gt;GENRE:3LEVEL,MOOD:2LEVEL,TEMPO:3LEVEL,ARTIST_ORIGIN:4LEVEL,ARTIST_ERA:2LEVEL,ARTIST_TYPE:2LEVEL&lt;/VALUE&gt;
+    &lt;/OPTION&gt;
+  &lt;/QUERY&gt;
+&lt;/QUERIES&gt;
+
+);
+
+
+xdmp:http-post(
+   "https://cxxx.web.cddbp.net/webapi/xml/1.0/",
+&lt;options xmlns="xdmp:http"&gt;
+       &lt;data&gt;{$payload}&lt;/data&gt;
+       &lt;headers&gt;
+         &lt;content-type&gt;application/xml&lt;/content-type&gt;
+       &lt;/headers&gt;
+        &lt;verify-cert&gt;false&lt;/verify-cert&gt;
+     &lt;/options&gt;) 
+ </query></workspace></export>
