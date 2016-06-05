@@ -6,7 +6,16 @@ declare function local:list-artists(){
 	element ul {
 		for $i in cts:element-values(xs:QName("Artist"), (), ("limit=20000"))
 		order by cts:frequency($i) descending
-		return element li {element a {attribute href {"/artist.xqy?artist="||xdmp:url-encode($i, fn:true())},$i}, " &emsp;(",cts:frequency($i),")"}	
+		return 
+			element li {
+				element a { attribute href {"/artist.xqy?artist="||xdmp:url-encode($i, fn:true())}, $i }, 
+				"&emsp;", 
+				element span { attribute class {"badge"},
+					element span { attribute class {"glyphicon glyphicon-cd"}, " "}, 
+						"&nbsp;", 
+						cts:frequency($i)
+				}
+			}	
  	}
 };
 
