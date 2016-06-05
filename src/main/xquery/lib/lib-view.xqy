@@ -131,7 +131,7 @@ declare function lib-view:generate-table-row-from-itunes-entry($i as element(iTu
         element td {xs:string($i/Album)},
         element td {xs:string($i/Year)},
         (: Total time is in miliseconds :)
-        element td { xs:duration("PT" || fn:round(xs:integer($i/Total-Time) div 1000) || "S" )  },
+        element td {lib-view:format-track-time(xs:integer($i/Total-Time))},
         element td {fn:round-half-to-even( xs:double(xs:unsignedLong($i/Size) div 1024 div 1024), 2)}
     }
 };
@@ -152,4 +152,9 @@ declare function lib-view:create-thead-element($headers as xs:string*) as elemen
             return element th {attribute class {"text-center"}, $header}
         }
     }
+};
+
+declare function lib-view:format-track-time($time as xs:integer) as xs:string  {
+    let $duration := xs:duration("PT" || fn:round($time div 1000) || "S" )
+    return fn:minutes-from-duration($duration)||":"||fn:seconds-from-duration($duration)
 };
