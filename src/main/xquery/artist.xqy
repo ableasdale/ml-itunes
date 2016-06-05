@@ -16,23 +16,14 @@ declare function local:create-lfm-uri($item as xs:string){
 
 declare function local:do-search(){
 	<table class="table table-striped table-bordered">
-		{lib-view:create-thead-element(("ID", "Title", "Artist", "Album", "Year", "Size (MB)"))}
+		{lib-view:generate-table-headings-for-itunes-entries()}
 		<tbody>
 			{
 				for $i in cts:search( fn:doc()/iTunes-item,
 				  cts:element-value-query(xs:QName("Artist"), $artist)
 				)
 				order by fn:number($i/Track-ID)
-	
-				return element tr {
-					element td {xs:string($i/Track-ID)},
-					element td {xs:string($i/Name)},
-					element td {<a href="artist.xqy?artist={xs:string($i/Artist)}">{xs:string($i/Artist)}</a>},
-					element td {xs:string($i/Album)},
-					element td {xs:string($i/Year)},
-					element td {fn:round-half-to-even( xs:double(xs:unsignedLong($i/Size) div 1024 div 1024), 2)}
-				}
-				
+				return lib-view:generate-table-row-from-itunes-entry($i)
 			}
 		</tbody>
 	</table>

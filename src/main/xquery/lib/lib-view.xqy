@@ -119,6 +119,21 @@ declare function lib-view:database-select() as element(div) {
     }
 }; :)
 
+declare function lib-view:generate-table-headings-for-itunes-entries(){
+    lib-view:create-thead-element(("ID", "Title", "Artist", "Album", "Year", "Size (MB)"))
+};
+
+declare function lib-view:generate-table-row-from-itunes-entry($i as element(iTunes-item)) as element(tr) {
+    element tr {
+        element td {<a href="/song.xqy?id={xs:string($i/Track-ID)}">{xs:string($i/Track-ID)}</a>},
+        element td {<a href="/song.xqy?id={xs:string($i/Track-ID)}">{xs:string($i/Name)}</a>},
+        element td {<a href="/artist.xqy?artist={xs:string($i/Artist)}">{xs:string($i/Artist)}</a>, " [",<a href="musicbrainz.xqy?artist={xs:string($i/Artist)}">MB</a>,"] [",<a href="lastfm.xqy?artist={xs:string($i/Artist)}">LFM</a>,"]"},
+        element td {xs:string($i/Album)},
+        element td {xs:string($i/Year)},
+        element td {fn:round-half-to-even( xs:double(xs:unsignedLong($i/Size) div 1024 div 1024), 2)}
+    }
+};
+
 declare function lib-view:page-header($title as xs:string, $subtitle as xs:string, $dropdown as item()?) as element(div)+ {
         element div {attribute class {"row"},
             element div {attribute class {"col-md-9"}, element h3 {$title, " ", element small {$subtitle}}},

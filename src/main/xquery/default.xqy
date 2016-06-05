@@ -15,20 +15,13 @@ import module namespace lib-view = "http://www.xmlmachines.com/ml-itunes/lib-vie
 
 declare function local:show-table() {
 	<table class="table table-striped table-bordered">
-		{lib-view:create-thead-element(("ID", "Title", "Artist", "Album", "Year", "Size (MB)"))}
+		{lib-view:generate-table-headings-for-itunes-entries()}
 		<tbody>
 			{
 				(: Works but annoyingly slow - fn:subsequence((for $i in (//iTunes-item) order by fn:number($i/Track-ID) :)
 				for $j in cts:element-values(xs:QName("Track-ID"), (), ("limit=1000"))
 				let $i := doc()/iTunes-item/Track-ID[. eq $j]/..
-				return element tr {
-					element td {<a href="/song.xqy?id={xs:string($i/Track-ID)}">{xs:string($i/Track-ID)}</a>},
-					element td {<a href="/song.xqy?id={xs:string($i/Track-ID)}">{xs:string($i/Name)}</a>},
-					element td {<a href="/artist.xqy?artist={xs:string($i/Artist)}">{xs:string($i/Artist)}</a>, " [",<a href="musicbrainz.xqy?artist={xs:string($i/Artist)}">MB</a>,"] [",<a href="lastfm.xqy?artist={xs:string($i/Artist)}">LFM</a>,"]"},
-					element td {xs:string($i/Album)},
-					element td {xs:string($i/Year)},
-					element td {fn:round-half-to-even( xs:double(xs:unsignedLong($i/Size) div 1024 div 1024), 2)}
-				}
+				return lib-view:generate-table-row-from-itunes-entry($i)
 			}
 		</tbody>
 	</table>
