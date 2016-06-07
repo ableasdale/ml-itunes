@@ -162,6 +162,15 @@ declare function lib-view:format-track-time($time as xs:integer) (:as xs:string 
     (: fn:minutes-from-duration($duration)||":"||fn:seconds-from-duration($duration) :)
 };
 
+declare function lib-view:generate-az-links($basehref as xs:string) { 
+    "< ",
+    element a { attribute href {$basehref||"all"}, "ALL"}," | ",
+    element a { attribute href {$basehref||"09"}, "0-9"}," | ",
+    for $i at $pos in 1 to 26 
+    return (element a { attribute href {$basehref||codepoints-to-string(64 + $i)}, codepoints-to-string(64 + $i)}, if($pos ne 26) then(" | ") else())
+    ," >"
+};
+
 (: TODO - in case it's ever needed?
 declare function eg:string-pad (
   $padString as xs:string?,

@@ -2,20 +2,39 @@ xquery version "1.0-ml";
 
 import module namespace lib-view = "http://www.xmlmachines.com/ml-itunes/lib-view" at "lib/lib-view.xqy";
 
+declare variable $selection as xs:string := xdmp:get-request-field("q", "all");
+
+declare function local:create-li-element($i as xs:string) as element(li) {
+	element li {
+		element a { attribute href {"/artist.xqy?artist="||xdmp:url-encode($i, fn:true())}, $i }, 
+		"&emsp;", 
+		element span { attribute class {"badge"},
+			element span { attribute class {"glyphicon glyphicon-cd"}, " "}, 
+				"&nbsp;", 
+				cts:frequency($i)
+		}
+	}	
+};
+
 declare function local:list-artists(){
+	element p {
+		lib-view:generate-az-links("/artists.xqy?q=")
+	},
 	element ul {
-		for $i in cts:element-values(xs:QName("Artist"), (), ("limit=20000"))
-		order by cts:frequency($i) descending
-		return 
-			element li {
-				element a { attribute href {"/artist.xqy?artist="||xdmp:url-encode($i, fn:true())}, $i }, 
-				"&emsp;", 
-				element span { attribute class {"badge"},
-					element span { attribute class {"glyphicon glyphicon-cd"}, " "}, 
-						"&nbsp;", 
-						cts:frequency($i)
-				}
-			}	
+		if ($selection eq "all") 
+		then (
+			for $i in cts:element-values(xs:QName("Artist"), (), ("limit=20000"))
+			order by cts:frequency($i) descending 
+			return local:create-li-element($i)
+		)
+		else (
+			for $i in cts:element-values(xs:QName("Artist"), (), ("limit=20000")) (: , "The" :)
+			where fn:starts-with($i, $selection, "http://marklogic.com/collation/codepoint")
+			order by cts:frequency($i) descending 
+			return local:create-li-element($i)
+
+		
+		)
  	}
 };
 
@@ -24,7 +43,7 @@ lib-view:create-bootstrap-page("iTunes App",
 	element div {attribute class { "container" },
 		lib-view:page-header("MarkLogic iTunes", "Artists", " "),
 		element div {attribute class { "row" },
-			<h2>Artists&emsp;<small>TODO</small></h2>,
+			<h2>Artists&emsp;<small>{$selection}</small></h2>,
 			local:list-artists()
 		}
 	}
