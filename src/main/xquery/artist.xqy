@@ -28,6 +28,20 @@ declare function local:do-search(){
 		</tbody>
 	</table>
 };
+declare function local:mb-matches(){
+		<table class="table table-striped table-bordered">
+		{lib-view:create-thead-element(("Created", "Name", "Sort Name", "Country", "Life Span"))}
+		<tbody>
+			{
+				for $i in fn:doc(local:create-uri($artist))//mb:metadata/mb:artist-list/mb:artist
+				return element tr {
+						element td {xs:string($i/mb:name)},
+						element td {"TODO"}
+				}
+			}
+		</tbody>
+	</table>
+};
 
 (: Module main :)
 lib-view:create-bootstrap-page("iTunes App",
@@ -35,7 +49,8 @@ lib-view:create-bootstrap-page("iTunes App",
 		lib-view:page-header("MarkLogic iTunes", "Artist: "|| $artist, " "),
 		element div {attribute class { "row" },
 			<h2>Artist&emsp;<small>{$artist}</small></h2>,
-			<h3>MusicBrainz</h3>,
+			<h3>MusicBrainz Search Matches</h3>,
+			local:mb-matches(),
 			<textarea>{fn:doc(local:create-uri($artist))}</textarea>,
 			<h3>Last FM</h3>,
 			<textarea>{fn:doc(local:create-lfm-uri($artist))}</textarea>,
