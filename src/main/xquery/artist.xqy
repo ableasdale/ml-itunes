@@ -28,15 +28,23 @@ declare function local:do-search(){
 		</tbody>
 	</table>
 };
-declare function local:mb-matches(){
+
+declare function local:mb-matches($node as element(ArtistData)) {
+		<p>Created - {fn:data($node/mb:metadata/@created)}</p>,
 		<table class="table table-striped table-bordered">
-		{lib-view:create-thead-element(("Created", "Name", "Sort Name", "Country", "Life Span"))}
+		{lib-view:create-thead-element(("Name", "Sort Name", "Country", "Life Span"))}
 		<tbody>
 			{
-				for $i in fn:doc(local:create-uri($artist))//mb:metadata/mb:artist-list/mb:artist
+				for $i in $node/mb:metadata/mb:artist-list/mb:artist
 				return element tr {
 						element td {xs:string($i/mb:name)},
-						element td {"TODO"}
+						element td {xs:string($i/mb:sort-name)},
+						element td {
+							if($i/mb:country) 
+							then (element img {attribute src {fn:concat("/assets/images/flags/",fn:lower-case(xs:string($i/mb:country)),".png")}})
+							else ()
+						},
+						element td {xs:string($i/mb:life-span/mb:begin)," - ",xs:string($i/mb:life-span/mb:ended)}
 				}
 			}
 		</tbody>
@@ -50,7 +58,7 @@ lib-view:create-bootstrap-page("iTunes App",
 		element div {attribute class { "row" },
 			<h2>Artist&emsp;<small>{$artist}</small></h2>,
 			<h3>MusicBrainz Search Matches</h3>,
-			local:mb-matches(),
+			local:mb-matches( fn:doc(local:create-uri($artist))/node() ), (: local:create-uri($artist)) :)
 			<textarea>{fn:doc(local:create-uri($artist))}</textarea>,
 			<h3>Last FM</h3>,
 			<textarea>{fn:doc(local:create-lfm-uri($artist))}</textarea>,
