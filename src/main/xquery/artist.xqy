@@ -33,7 +33,7 @@ declare function local:do-search(){
 declare function local:mb-matches($node as element(ArtistData)) {
 		<p>Created - {fn:data($node/mb:metadata/@created)}</p>,
 		<table class="table table-striped table-bordered">
-		{lib-view:create-thead-element(("Score","Name", "Sort Name", "Country", "Life Span"))}
+		{lib-view:create-thead-element(("Score","Name", "Sort Name", "Country", "Area", "Life Span"))}
 		<tbody>
 			{
 				for $i in $node/mb:metadata/mb:artist-list/mb:artist
@@ -43,8 +43,10 @@ declare function local:mb-matches($node as element(ArtistData)) {
 						element td {xs:string($i/mb:name)},
 						element td {xs:string($i/mb:sort-name)},
 						element td {
-							element img {attribute src {fn:concat("/assets/images/flags/",fn:lower-case(xs:string($i/mb:country)),".png")}}
+							element img {attribute src {fn:concat("/assets/images/flags/",fn:lower-case(xs:string($i/mb:country)),".png")}, attribute title {xs:string($i/mb:country)}},
+							"&emsp;",xs:string($i/mb:area/mb:name)
 						},
+						element td {xs:string($i/mb:begin-area/mb:name)},
 						element td {xs:string($i/mb:life-span/mb:begin)," - ",xs:string($i/mb:life-span/mb:ended)}
 				}
 			}
