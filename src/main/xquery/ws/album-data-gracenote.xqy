@@ -16,7 +16,7 @@ for $i in cts:element-values(xs:QName("Artist"), (), ())
 let $j := cts:element-values(xs:QName("Album"), (), (), cts:element-value-query(xs:QName("Artist"), $i)) 
 return 
 	if(local:has-meta($i, $j))
-	then(xdmp:log("Skipping: " || $i))
+	then(xdmp:log("Skipping: " || $i || " - " || $j))
 	else (
 		xdmp:spawn-function(function() {
 			let $response := lib-data:request-album-information-from-gracenote($i, $j)
