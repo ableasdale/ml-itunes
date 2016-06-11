@@ -10,11 +10,12 @@ declare variable $GRACENOTE-ROOT-XML-ELEMENT as xs:string := "GracenoteData";
 
 (: See: http://wiki.musicbrainz.org/XMLWebService :)
 declare variable $MUSICBRAINZ-USER-AGENT-STRING as xs:string := "MarkLogic iTunes/0.1 (example@example.com)";
+declare variable $MUSICBRAINZ-API-URI as xs:string := "http://musicbrainz.org/ws/2/";
 declare variable $MUSICBRAINZ-ROOT-XML-ELEMENT as xs:string := "ArtistData";  
 
 (: See: http://www.last.fm/api :)   
-declare variable $LAST-FM-API-URI as xs:string := "http://ws.audioscrobbler.com/2.0/";
 declare variable $LAST-FM-URI-KEY as xs:string := "aaaaaaaa";
+declare variable $LAST-FM-API-URI as xs:string := "http://ws.audioscrobbler.com/2.0/";
 declare variable $LAST-FM-ROOT-XML-ELEMENT as xs:string := "LastFMArtistData";   
 
 declare variable $ITUNES-DATABASE-NAME as xs:string := "iTunes";
