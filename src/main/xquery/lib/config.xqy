@@ -6,6 +6,7 @@ module namespace config = "http://www.xmlmachines.com/ml-itunes/config";
 declare variable $GRACENOTE-CLIENT-ID as xs:string := "xxxx";
 declare variable $GRACENOTE-USER-ID as xs:string := "yyyy";
 declare variable $GRACENOTE-API-URI as xs:string := "https://czzzz.web.cddbp.net/webapi/xml/1.0/";
+declare variable $GRACENOTE-ROOT-XML-ELEMENT as xs:string := "GracenoteData";
 
 (: See: http://wiki.musicbrainz.org/XMLWebService :)
 declare variable $MUSICBRAINZ-USER-AGENT-STRING as xs:string := "MarkLogic iTunes/0.1 (example@example.com)";
