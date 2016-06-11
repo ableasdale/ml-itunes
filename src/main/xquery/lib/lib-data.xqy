@@ -84,6 +84,6 @@ xdmp:http-get(
 declare function lib-data:get-options-node() as element(xe:options){
   <options xmlns="xdmp:eval">
     <transaction-mode>update-auto-commit</transaction-mode>
-    <database>{xdmp:database("iTunes")}</database>
+    <database>{xdmp:database($config:ITUNES-DATABASE-NAME)}</database>
   </options>
 };
