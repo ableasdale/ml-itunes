@@ -4,6 +4,8 @@ module namespace lib-data = "http://www.xmlmachines.com/ml-itunes/lib-data";
 
 import module namespace config = "http://www.xmlmachines.com/ml-itunes/config" at "/lib/config.xqy";
 
+declare namespace xe = "xdmp:eval";
+
 (: Data Functions for calling Gracenote DB :)
 
 declare private function lib-data:gracenote-album-request($artist-name as xs:string, $album-title as xs:string) { 
@@ -77,4 +79,11 @@ xdmp:http-get(
 declare function lib-data:lookup-release-on-discogs($release-id as xs:string) { 
 xdmp:http-get(
    "https://api.discogs.com/releases/"||$release-id)
+};
+
+declare function lib-data:get-options-node() as element(xe:options){
+  <options xmlns="xdmp:eval">
+    <transaction-mode>update-auto-commit</transaction-mode>
+    <database>{xdmp:database("iTunes")}</database>
+  </options>
 };

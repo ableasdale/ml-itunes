@@ -1,8 +1,6 @@
 xquery version "1.0-ml";
 
-declare variable $LFM-URI-KEY as xs:string := "xxxxxxx";
-declare variable $LFM-ROOT-ELEMENT as xs:string := "LastFMArtistData";
-
+(: TODO - this is a little broken right now :)
 
 declare function local:create-uri($item as xs:string){
   ("/lfm/"||xdmp:url-encode($item, fn:true())||".xml")
