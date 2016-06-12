@@ -63,6 +63,10 @@ xdmp:http-get(
   (: TODO - this will search -- consider for later feature? $config:LAST-FM-API-URI||"?method=album.search&amp;album="||xdmp:url-encode($album-name,fn:true())||"&amp;api_key="||$config:LAST-FM-URI-KEY) :)  
 };
 
+declare function lib-data:request-similar-tracks-from-last-fm($artist-name as xs:string, $track-name as xs:string) {
+  xdmp:http-get($config:LAST-FM-API-URI||"?method=track.getsimilar&amp;artist="||xdmp:url-encode($artist-name,fn:true())||"&amp;track="||xdmp:url-encode($track-name,fn:true())||"&amp;api_key="||$config:LAST-FM-URI-KEY)
+};
+
 (: End Data Functions for Last FM :)
 
 (: Data Functions for Musicbrainz :)
