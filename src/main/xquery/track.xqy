@@ -16,6 +16,8 @@ lib-view:create-bootstrap-page("iTunes App",
 		element div {attribute class { "row" },
 			<h2>Track information&emsp;<small>{xs:string($doc/Artist)}: {xs:string($doc/Name)}</small></h2>,
 			<textarea>{$doc}</textarea>,
+			<h2>Last FM Track information</h2>,
+			<textarea>{doc(lib-data:create-document-uri("lfm", xs:string($doc/Artist), xs:string($doc/Name)))}</textarea>,
 			<h2>(Last FM) Similar</h2>,
 			(: ex - doc("/lfm-similar/Arrested%20Development/People%20Everyday.xml"):)
 			<textarea>{doc(lib-data:create-document-uri("lfm-similar", xs:string($doc/Artist), xs:string($doc/Name)))}</textarea>
