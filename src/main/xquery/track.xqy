@@ -17,8 +17,8 @@ lib-view:create-bootstrap-page("iTunes App",
 			<h2>Track information&emsp;<small>{xs:string($doc/Artist)}: {xs:string($doc/Name)}</small></h2>,
 			<textarea>{$doc}</textarea>,
 			<h2>(Last FM) Similar</h2>,
-			<p>TODO - at the moment this is a live lookup - save the data so we dont have to keep going back to LFM for it</p>,
-			<textarea>{lib-data:request-similar-tracks-from-last-fm(xs:string($doc/Artist), xs:string($doc/Name))}</textarea>
+			(: ex - doc("/lfm-similar/Arrested%20Development/People%20Everyday.xml"):)
+			<textarea>{doc(lib-data:create-document-uri("lfm-similar", xs:string($doc/Artist), xs:string($doc/Name)))}</textarea>
 		}
 	}
 )
