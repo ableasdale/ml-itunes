@@ -12,7 +12,7 @@ lib-view:create-bootstrap-page("iTunes App",
 		lib-view:page-header("MarkLogic iTunes", "Album", " "),
 		element div { attribute class { "row" },
 			<textarea>
-				{fn:doc(lib-data:create-album-uri("lfm", "artist", "album"))}
+				{fn:doc(lib-data:create-document-uri("lfm", $artist, $album))}
 			</textarea>
 			(: local:show-table()	:)	
 		}
