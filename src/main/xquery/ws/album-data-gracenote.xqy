@@ -11,7 +11,7 @@ declare function local:has-meta($artist as xs:string, $album as xs:string) as xs
   fn:local-name(fn:doc(local:create-uri($artist, $album))/node()) eq $config:GRACENOTE-ROOT-XML-ELEMENT
 };
 
-(: Module main :)
+(: Module Main :)
 for $i in cts:element-values(xs:QName("Artist"), (), ())
 let $j := cts:element-values(xs:QName("Album"), (), (), cts:element-value-query(xs:QName("Artist"), $i)) 
 return 
