@@ -5,6 +5,7 @@ module namespace lib-data = "http://www.xmlmachines.com/ml-itunes/lib-data";
 import module namespace config = "http://www.xmlmachines.com/ml-itunes/config" at "/lib/config.xqy";
 
 declare namespace xe = "xdmp:eval";
+declare namespace opensearch = "http://a9.com/-/spec/opensearch/1.1/";
 
 (: Data Functions for calling Gracenote DB :)
 
@@ -57,8 +58,7 @@ declare function lib-data:request-artist-information-from-lastfm($artist-name as
 };
 
 declare function lib-data:request-album-information-from-lastfm($artist-name as xs:string, $album-name as xs:string) { 
-  xdmp:http-get($config:LAST-FM-API-URI||"?method=album.getInfo&amp;artist="||xdmp:url-encode($artist-name,fn:true())||"&amp;album="||xdmp:url-encode($album-name,fn:true())||"&amp;api_key="||$config:LAST-FM-URI-KEY)  
-  (: TODO - this will search -- consider for later feature? $config:LAST-FM-API-URI||"?method=album.search&amp;album="||xdmp:url-encode($album-name,fn:true())||"&amp;api_key="||$config:LAST-FM-URI-KEY) :)  
+  xdmp:http-get($config:LAST-FM-API-URI||"?method=album.getInfo&amp;artist="||xdmp:url-encode($artist-name,fn:true())||"&amp;album="||xdmp:url-encode($album-name,fn:true())||"&amp;api_key="||$config:LAST-FM-URI-KEY)
 };
 
 declare function lib-data:request-track-data-from-last-fm($artist-name as xs:string, $track-name as xs:string) {
@@ -67,6 +67,25 @@ declare function lib-data:request-track-data-from-last-fm($artist-name as xs:str
 
 declare function lib-data:request-similar-tracks-from-last-fm($artist-name as xs:string, $track-name as xs:string) {
   xdmp:http-get($config:LAST-FM-API-URI||"?method=track.getsimilar&amp;artist="||xdmp:url-encode($artist-name,fn:true())||"&amp;track="||xdmp:url-encode($track-name,fn:true())||"&amp;api_key="||$config:LAST-FM-URI-KEY)
+};
+
+declare function lib-data:search-last-fm-for-album($album-name as xs:string) {
+  xdmp:log($config:LAST-FM-API-URI||"?method=album.search&amp;album="||xdmp:url-encode($album-name,fn:true())||"&amp;api_key="||$config:LAST-FM-URI-KEY),
+  element opensearch:osresults {
+  (: xdmp:http-get($config:LAST-FM-API-URI||"?method=album.search&amp;album="||xdmp:url-encode($album-name,fn:true())||"&amp;api_key="||$config:LAST-FM-URI-KEY):)
+  }
+ (: TODO - this will search -- consider for later feature? 
+  $config:LAST-FM-API-URI||"?method=album.search&amp;album="||xdmp:url-encode($album-name,fn:true())||"&amp;api_key="||$config:LAST-FM-URI-KEY) 
+  http://a9.com/-/spec/opensearch/1.1/
+  :)  
+};
+
+declare function lib-data:search-last-fm-for-artist($artist-name as xs:string) {
+    xdmp:http-get($config:LAST-FM-API-URI||"?method=artist.search&amp;artist="||xdmp:url-encode($artist-name,fn:true())||"&amp;api_key="||$config:LAST-FM-URI-KEY,
+    <options xmlns="xdmp:http-get">
+      <format xmlns="xdmp:document-get">text</format>
+    </options>
+    )[2]
 };
 
 (: End Data Functions for Last FM :)

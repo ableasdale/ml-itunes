@@ -20,5 +20,7 @@ declare variable $LAST-FM-URI-KEY as xs:string := "aaaaaaaa";
 declare variable $LAST-FM-API-URI as xs:string := "http://ws.audioscrobbler.com/2.0/";
 declare variable $LAST-FM-ARTIST-ROOT-XML-ELEMENT as xs:string := "LastFMArtistData";   
 declare variable $LAST-FM-ALBUM-ROOT-XML-ELEMENT as xs:string := "LastFMAlbumData";  
+declare variable $LAST-FM-TRACK-ROOT-XML-ELEMENT as xs:string := "LastFMTrackData"; 
+declare variable $LAST-FM-SIMILAR-TRACK-ROOT-XML-ELEMENT as xs:string := "LastFMTrackSimilarData";
 
 declare variable $ITUNES-DATABASE-NAME as xs:string := "iTunes";
