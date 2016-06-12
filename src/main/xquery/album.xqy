@@ -14,7 +14,7 @@ lib-view:create-bootstrap-page("iTunes App",
 		lib-view:page-header("MarkLogic iTunes", "Album", " "),
 		element div { attribute class { "row" },
             <h2>Last FM Data</h2>,
-            <p><img src="{fn:data($last-fm-data//image[@size eq 'mega'])}" alt="Cover Art" title="Cover Art" /></p>,
+            <p><img src="{fn:data($last-fm-data//image[@size eq 'extralarge'])}" alt="Cover Art" title="Cover Art" class="img-thumbnail" /></p>,
 			<textarea>
 				{$last-fm-data}
 			</textarea>
