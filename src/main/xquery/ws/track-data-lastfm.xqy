@@ -15,16 +15,10 @@ return
 	return if(local:has-meta($i, $item))
 	then(xdmp:log("Skipping matched search: " || $i || " - " || $item))
 	else (
-        let $_ := xdmp:log($i || $item)
-    return
 		xdmp:spawn-function(function() {
-			let $response := lib-data:request-track-data-from-last-fm($i, $item)
-			return (
-				xdmp:log($response),  
-				xdmp:document-insert( lib-data:create-document-uri("lfm", $i, $item), 
-					element {xs:QName($config:LAST-FM-TRACK-ROOT-XML-ELEMENT)} {
-    				$response[2]}
-				)
-			)	
+            xdmp:document-insert( lib-data:create-document-uri("lfm", $i, $item), 
+				element {xs:QName($config:LAST-FM-TRACK-ROOT-XML-ELEMENT)} {
+    			lib-data:request-track-data-from-last-fm($i, $item)[2]}
+			)
 		}, lib-data:get-options-node())
-	)	
+    )	
