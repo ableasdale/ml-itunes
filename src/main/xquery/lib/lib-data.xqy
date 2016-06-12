@@ -64,6 +64,8 @@ xdmp:http-get(
 };
 
 declare function lib-data:request-similar-tracks-from-last-fm($artist-name as xs:string, $track-name as xs:string) {
+  let $_ := xdmp:log($config:LAST-FM-API-URI||"?method=track.getsimilar&amp;artist="||xdmp:url-encode($artist-name,fn:true())||"&amp;track="||xdmp:url-encode($track-name,fn:true())||"&amp;api_key="||$config:LAST-FM-URI-KEY)
+  return
   xdmp:http-get($config:LAST-FM-API-URI||"?method=track.getsimilar&amp;artist="||xdmp:url-encode($artist-name,fn:true())||"&amp;track="||xdmp:url-encode($track-name,fn:true())||"&amp;api_key="||$config:LAST-FM-URI-KEY)
 };
 
