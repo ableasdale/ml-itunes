@@ -6,13 +6,17 @@ import module namespace lib-data = "http://www.xmlmachines.com/ml-itunes/lib-dat
 declare variable $artist := xdmp:get-request-field("artist");
 declare variable $album := xdmp:get-request-field("album");
 
+declare variable $last-fm-data := fn:doc(lib-data:create-document-uri("lfm", $artist, $album));
+
 (: Module main :)
 lib-view:create-bootstrap-page("iTunes App",
 	element div { attribute class {"container"},
 		lib-view:page-header("MarkLogic iTunes", "Album", " "),
 		element div { attribute class { "row" },
+            <h2>Last FM Data</h2>,
+            <p><img src="{fn:data($last-fm-data//image[@size eq 'mega'])}" alt="Cover Art" title="Cover Art" /></p>,
 			<textarea>
-				{fn:doc(lib-data:create-document-uri("lfm", $artist, $album))}
+				{$last-fm-data}
 			</textarea>
 			(: local:show-table()	:)	
 		}
