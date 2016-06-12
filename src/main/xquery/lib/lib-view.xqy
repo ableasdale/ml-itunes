@@ -126,10 +126,10 @@ declare function lib-view:generate-table-headings-for-itunes-entries(){
 
 declare function lib-view:generate-table-row-from-itunes-entry($i as element(iTunes-item)) as element(tr) {
     element tr {
-        element td {<a href="/song.xqy?id={xs:string($i/Track-ID)}">{xs:string($i/Track-ID)}</a>},
-        element td {<a href="/song.xqy?id={xs:string($i/Track-ID)}">{xs:string($i/Name)}</a>},
+        element td {<a href="/track.xqy?id={xs:string($i/Track-ID)}">{xs:string($i/Track-ID)}</a>},
+        element td {<a href="/track.xqy?id={xs:string($i/Track-ID)}">{xs:string($i/Name)}</a>},
         element td {<a href="/artist.xqy?artist={xs:string($i/Artist)}">{xs:string($i/Artist)}</a>, " [",<a href="musicbrainz.xqy?artist={xs:string($i/Artist)}">MB</a>,"] [",<a href="lastfm.xqy?artist={xs:string($i/Artist)}">LFM</a>,"]"},
-        element td {xs:string($i/Album)},
+        element td {<a href="/album.xqy?artist={xs:string($i/Artist)}&amp;album={xs:string($i/Album)}">{xs:string($i/Album)}</a>},
         element td {xs:string($i/Year)},
         (: Total time is in miliseconds :)
         element td {lib-view:format-track-time(xs:integer($i/Total-Time))},

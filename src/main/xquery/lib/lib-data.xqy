@@ -69,6 +69,8 @@ declare function lib-data:request-similar-tracks-from-last-fm($artist-name as xs
   xdmp:http-get($config:LAST-FM-API-URI||"?method=track.getsimilar&amp;artist="||xdmp:url-encode($artist-name,fn:true())||"&amp;track="||xdmp:url-encode($track-name,fn:true())||"&amp;api_key="||$config:LAST-FM-URI-KEY)
 };
 
+(: TODO - LFM Search doesn't really work as the XML returned from the webservice doesn't have the correct namespace :)
+
 declare function lib-data:search-last-fm-for-album($album-name as xs:string) {
   xdmp:log($config:LAST-FM-API-URI||"?method=album.search&amp;album="||xdmp:url-encode($album-name,fn:true())||"&amp;api_key="||$config:LAST-FM-URI-KEY),
   element opensearch:osresults {
@@ -112,9 +114,14 @@ xdmp:http-get(
    "https://api.discogs.com/releases/"||$release-id)
 };
 
-declare function lib-data:get-options-node() as element(xe:options){
+declare function lib-data:get-options-node() as element(xe:options) { 
   <options xmlns="xdmp:eval">
     <transaction-mode>update-auto-commit</transaction-mode>
     <database>{xdmp:database($config:ITUNES-DATABASE-NAME)}</database>
   </options>
+};
+
+(: $item could be a track title or an album title :)
+declare function lib-data:create-document-uri($prefix as xs:string, $artist as xs:string, $item as xs:string) {
+  ("/"||$prefix||"/"||xdmp:url-encode($artist, fn:true())||"/"||xdmp:url-encode($item, fn:true())||".xml")
 };

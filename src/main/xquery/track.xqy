@@ -10,7 +10,6 @@ declare variable $itunes-id := xdmp:get-request-field("id");
 declare variable $doc := cts:search(fn:doc()/iTunes-item , cts:element-value-query(xs:QName("Track-ID"), $itunes-id));
 (: TODO - scrobbler data for track :)
 
-
 lib-view:create-bootstrap-page("iTunes App",
 	element div {attribute class { "container" },
 		lib-view:page-header("MarkLogic iTunes", "Track information", " "),
