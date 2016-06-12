@@ -15,14 +15,15 @@ declare function local:has-meta($artist as xs:string, $album as xs:string) as xs
 for $i in cts:element-values(xs:QName("Artist"), (), ())
 let $j := cts:element-values(xs:QName("Album"), (), (), cts:element-value-query(xs:QName("Artist"), $i)) 
 return 
-	if(local:has-meta($i, $j))
-	then(xdmp:log("Skipping: " || $i || " - " || $j))
+	for $item in $j
+	return if(local:has-meta($i, $item))
+	then(xdmp:log("Skipping matched search: " || $i || " - " || $item))
 	else (
 		xdmp:spawn-function(function() {
-			let $response := lib-data:request-album-information-from-gracenote($i, $j)
+			let $response := lib-data:request-album-information-from-gracenote($i, $item)
 			return (
 				xdmp:log($response),  
-				xdmp:document-insert( local:create-uri($i, $j), 
+				xdmp:document-insert( local:create-uri($i, $item), 
 					element {xs:QName($config:GRACENOTE-ROOT-XML-ELEMENT)} {
     				$response[2]}
 				)
