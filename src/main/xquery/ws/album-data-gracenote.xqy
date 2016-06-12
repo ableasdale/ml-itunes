@@ -8,11 +8,11 @@ declare function local:create-uri($artist as xs:string, $album as xs:string){
 };
 
 declare function local:has-meta($artist as xs:string, $album as xs:string) as xs:boolean {
-  fn:local-name(fn:doc(local:create-uri($artist, $album))/node()) eq $config:GRACENOTE-ROOT-XML-ELEMENT
+  fn:local-name(fn:doc(local:create-uri($artist, $album))/node()) eq $config:GRACENOTE-ALBUM-ROOT-XML-ELEMENT
 };
 
 (: Module Main :)
-for $i in cts:element-values(xs:QName("Artist"), (), ())
+for $i in cts:element-values(xs:QName("Artist"), (), ("limit=1"))
 let $j := cts:element-values(xs:QName("Album"), (), (), cts:element-value-query(xs:QName("Artist"), $i)) 
 return 
 	for $item in $j
@@ -24,7 +24,7 @@ return
 			return (
 				xdmp:log($response),  
 				xdmp:document-insert( local:create-uri($i, $item), 
-					element {xs:QName($config:GRACENOTE-ROOT-XML-ELEMENT)} {
+					element {xs:QName($config:GRACENOTE-ALBUM-ROOT-XML-ELEMENT)} {
     				$response[2]}
 				)
 			)	
