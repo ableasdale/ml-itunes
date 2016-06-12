@@ -12,7 +12,7 @@ declare function local:has-meta($item as xs:string) as xs:boolean {
 };
 
 (: Module Main :)
-for $i in cts:element-values(xs:QName("Artist"), (), ("limit=1"))
+for $i in cts:element-values(xs:QName("Artist"), (), ())
 return 
   if(local:has-meta($i))
   then(xdmp:log("Skipping matched search: " || $i))
