@@ -6,23 +6,23 @@ import module namespace lib-data = "http://www.xmlmachines.com/ml-itunes/lib-dat
 declare variable $artist := xdmp:get-request-field("artist");
 declare variable $album := xdmp:get-request-field("album");
 
-declare variable $last-fm-data := fn:doc(lib-data:create-document-uri("lfm", $artist, $album));
+declare variable $last-fm-data := fn:doc(lib-data:create-document-uri("lfm-album", $artist, $album));
 
 declare function local:itunes-information() as element(div) {
     element div { attribute class { "row" },
         element h3 {"In iTunes"},
-    <table class="table table-striped table-bordered">
-		{lib-view:generate-table-headings-for-itunes-entries()}
-		<tbody>{
-            for $i in cts:search(doc()/iTunes-item,
-                cts:and-query((
-                    cts:element-value-query(xs:QName("Artist"), $artist),
-                    cts:element-value-query(xs:QName("Album"), $album)
-                ))
-            )
-            return lib-view:generate-table-row-from-itunes-entry($i)
-        }</tbody>
-	</table>
+        <table class="table table-striped table-bordered">
+            {lib-view:generate-table-headings-for-itunes-entries()}
+            <tbody>{
+                for $i in cts:search(doc()/iTunes-item,
+                    cts:and-query((
+                        cts:element-value-query(xs:QName("Artist"), $artist),
+                        cts:element-value-query(xs:QName("Album"), $album)
+                    ))
+                )
+                return lib-view:generate-table-row-from-itunes-entry($i)
+            }</tbody>
+        </table>
     }
 };
 
