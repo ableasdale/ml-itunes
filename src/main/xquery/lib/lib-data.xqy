@@ -57,9 +57,10 @@ xdmp:http-get(
   $config:LAST-FM-API-URI||"?method=artist.getinfo&amp;artist="||xdmp:url-encode($artist-name,fn:true())||"&amp;api_key="||$config:LAST-FM-URI-KEY)  
 };
 
-declare function lib-data:request-album-information-from-lastfm($album-name as xs:string) { 
+declare function lib-data:request-album-information-from-lastfm($artist-name as xs:string, $album-name as xs:string) { 
 xdmp:http-get( 
-  $config:LAST-FM-API-URI||"?method=album.search&amp;album="||xdmp:url-encode($album-name,fn:true())||"&amp;api_key="||$config:LAST-FM-URI-KEY)  
+  $config:LAST-FM-API-URI||"?method=album.getInfo&amp;artist="||xdmp:url-encode($artist-name,fn:true())||"&amp;album="||xdmp:url-encode($album-name,fn:true())||"&amp;api_key="||$config:LAST-FM-URI-KEY)  
+  (: TODO - this will search -- consider for later feature? $config:LAST-FM-API-URI||"?method=album.search&amp;album="||xdmp:url-encode($album-name,fn:true())||"&amp;api_key="||$config:LAST-FM-URI-KEY) :)  
 };
 
 (: End Data Functions for Last FM :)
