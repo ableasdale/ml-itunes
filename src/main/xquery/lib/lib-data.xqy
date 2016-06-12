@@ -53,19 +53,19 @@ declare function lib-data:request-album-information-from-gracenote($artist-name 
 (: Data Functions for Last FM :)
 
 declare function lib-data:request-artist-information-from-lastfm($artist-name as xs:string) { 
-xdmp:http-get( 
-  $config:LAST-FM-API-URI||"?method=artist.getinfo&amp;artist="||xdmp:url-encode($artist-name,fn:true())||"&amp;api_key="||$config:LAST-FM-URI-KEY)  
+  xdmp:http-get($config:LAST-FM-API-URI||"?method=artist.getinfo&amp;artist="||xdmp:url-encode($artist-name,fn:true())||"&amp;api_key="||$config:LAST-FM-URI-KEY)  
 };
 
 declare function lib-data:request-album-information-from-lastfm($artist-name as xs:string, $album-name as xs:string) { 
-xdmp:http-get( 
-  $config:LAST-FM-API-URI||"?method=album.getInfo&amp;artist="||xdmp:url-encode($artist-name,fn:true())||"&amp;album="||xdmp:url-encode($album-name,fn:true())||"&amp;api_key="||$config:LAST-FM-URI-KEY)  
+  xdmp:http-get($config:LAST-FM-API-URI||"?method=album.getInfo&amp;artist="||xdmp:url-encode($artist-name,fn:true())||"&amp;album="||xdmp:url-encode($album-name,fn:true())||"&amp;api_key="||$config:LAST-FM-URI-KEY)  
   (: TODO - this will search -- consider for later feature? $config:LAST-FM-API-URI||"?method=album.search&amp;album="||xdmp:url-encode($album-name,fn:true())||"&amp;api_key="||$config:LAST-FM-URI-KEY) :)  
 };
 
+declare function lib-data:request-track-data-from-last-fm($artist-name as xs:string, $track-name as xs:string) {
+  xdmp:http-get($config:LAST-FM-API-URI||"?method=track.getInfo&amp;artist="||xdmp:url-encode($artist-name,fn:true())||"&amp;track="||xdmp:url-encode($track-name,fn:true())||"&amp;api_key="||$config:LAST-FM-URI-KEY)  
+};
+
 declare function lib-data:request-similar-tracks-from-last-fm($artist-name as xs:string, $track-name as xs:string) {
-  let $_ := xdmp:log($config:LAST-FM-API-URI||"?method=track.getsimilar&amp;artist="||xdmp:url-encode($artist-name,fn:true())||"&amp;track="||xdmp:url-encode($track-name,fn:true())||"&amp;api_key="||$config:LAST-FM-URI-KEY)
-  return
   xdmp:http-get($config:LAST-FM-API-URI||"?method=track.getsimilar&amp;artist="||xdmp:url-encode($artist-name,fn:true())||"&amp;track="||xdmp:url-encode($track-name,fn:true())||"&amp;api_key="||$config:LAST-FM-URI-KEY)
 };
 
