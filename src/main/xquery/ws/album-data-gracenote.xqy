@@ -19,7 +19,7 @@ return
 			let $response := lib-data:request-album-information-from-gracenote($i, $item)
 			return (
 				xdmp:log($response),  
-				xdmp:document-insert( lib-data:create-document-uri("gn",$artist, $album), 
+				xdmp:document-insert( lib-data:create-document-uri("gn", $i, $item), 
 					element {xs:QName($config:GRACENOTE-ALBUM-ROOT-XML-ELEMENT)} {
     				$response[2]}
 				)

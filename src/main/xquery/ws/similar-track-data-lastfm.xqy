@@ -21,7 +21,7 @@ return
 			let $response := lib-data:request-similar-tracks-from-last-fm($i, $item)
 			return (
 				xdmp:log($response),  
-				xdmp:document-insert( lib-data:create-document-uri("lfm-similar", $artist, $track), 
+				xdmp:document-insert( lib-data:create-document-uri("lfm-similar", $i, $item), 
 					element {xs:QName($config:LAST-FM-SIMILAR-TRACK-ROOT-XML-ELEMENT)} {
     				$response[2]}
 				)

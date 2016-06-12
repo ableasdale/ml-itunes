@@ -21,7 +21,7 @@ return
 			let $response := lib-data:request-track-data-from-last-fm($i, $item)
 			return (
 				xdmp:log($response),  
-				xdmp:document-insert( lib-data:create-document-uri("lfm", $artist, $track), 
+				xdmp:document-insert( lib-data:create-document-uri("lfm", $i, $item), 
 					element {xs:QName($config:LAST-FM-TRACK-ROOT-XML-ELEMENT)} {
     				$response[2]}
 				)
