@@ -57,13 +57,18 @@ xdmp:http-get(
   $config:LAST-FM-API-URI||"?method=artist.getinfo&amp;artist="||xdmp:url-encode($artist-name,fn:true())||"&amp;api_key="||$config:LAST-FM-URI-KEY)  
 };
 
+declare function lib-data:request-album-information-from-lastfm($album-name as xs:string) { 
+xdmp:http-get( 
+  $config:LAST-FM-API-URI||"?method=album.search&amp;album="||xdmp:url-encode($album-name,fn:true())||"&amp;api_key="||$config:LAST-FM-URI-KEY)  
+};
+
 (: End Data Functions for Last FM :)
 
 (: Data Functions for Musicbrainz :)
 
 declare function lib-data:request-artist-information-from-musicbrainz($artist-name as xs:string) {
 xdmp:http-get(
-  "http://musicbrainz.org/ws/2/artist/?query=artist:"||xdmp:url-encode($artist-name,fn:true()),
+  $config:MUSICBRAINZ-API-URI||"artist/?query=artist:"||xdmp:url-encode($artist-name,fn:true()),
   <options xmlns="xdmp:http">
     <headers>
       <User-Agent>{$config:MUSICBRAINZ-USER-AGENT-STRING}</User-Agent>
