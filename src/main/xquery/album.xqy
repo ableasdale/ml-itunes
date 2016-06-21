@@ -28,9 +28,7 @@ declare function local:itunes-information() as element(div) {
 
 declare function local:last-fm-data() as element(div) {
     element div { attribute class { "row" },
-        <textarea width="150" height="50">
-            {$last-fm-data}
-        </textarea>,
+        element textarea {$last-fm-data},
         element h3 {"Last FM Data"},
         lib-view:create-paragraph-element("Name", xs:string($last-fm-data/LastFMAlbumData/lfm/album/name)),
         lib-view:create-paragraph-element("Artist", xs:string($last-fm-data/LastFMAlbumData/lfm/album/artist)),
