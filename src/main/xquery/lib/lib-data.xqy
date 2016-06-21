@@ -2,6 +2,7 @@ xquery version "1.0-ml";
 
 module namespace lib-data = "http://www.xmlmachines.com/ml-itunes/lib-data";
 
+import module namespace lib-view = "http://www.xmlmachines.com/ml-itunes/lib-view" at "/lib/lib-view.xqy";
 import module namespace config = "http://www.xmlmachines.com/ml-itunes/config" at "/lib/config.xqy";
 
 declare namespace xe = "xdmp:eval";
@@ -124,4 +125,9 @@ declare function lib-data:get-options-node() as element(xe:options) {
 (: $item could be a track title or an album title :)
 declare function lib-data:create-document-uri($prefix as xs:string, $artist as xs:string, $item as xs:string) {
   ("/"||$prefix||"/"||xdmp:url-encode($artist, fn:true())||"/"||xdmp:url-encode($item, fn:true())||".xml")
+};
+
+declare function lib-data:process-tracks($tracks as element(tracks)) {
+    element h4 {"Track Listing"},
+    element ul {for $track in $tracks/track return element li {lib-view:generate-href(xs:string($track/name))}}
 };

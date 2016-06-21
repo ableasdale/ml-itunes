@@ -28,11 +28,18 @@ declare function local:itunes-information() as element(div) {
 
 declare function local:last-fm-data() as element(div) {
     element div { attribute class { "row" },
-        <h3>Last FM Data</h3>,
-        <p><img src="{fn:data($last-fm-data//image[@size eq 'extralarge'])}" alt="Cover Art" title="Cover Art" class="img-thumbnail" /></p>,
-        <textarea>
+        <textarea width="150" height="50">
             {$last-fm-data}
-        </textarea>
+        </textarea>,
+        element h3 {"Last FM Data"},
+        lib-view:create-paragraph-element("Name", xs:string($last-fm-data/LastFMAlbumData/lfm/album/name)),
+        lib-view:create-paragraph-element("Artist", xs:string($last-fm-data/LastFMAlbumData/lfm/album/artist)),
+        lib-view:create-paragraph-with-link("Last FM URI", xs:string($last-fm-data/LastFMAlbumData/lfm/album/url)), 
+        lib-view:create-paragraph-element("Musicbrainz id",  xs:string($last-fm-data/LastFMAlbumData/lfm/album/mbid)),
+        (: lib-view:create-paragraph-wth-image( ) :)
+        <p><img src="{fn:data($last-fm-data//image[@size eq 'extralarge'])}" alt="Cover Art" title="Cover Art" class="img-thumbnail" /></p>,
+        lib-data:process-tracks($last-fm-data/LastFMAlbumData/lfm/album/tracks)
+        
         (: local:show-table()	:)	
     }
 };

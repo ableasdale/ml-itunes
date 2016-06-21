@@ -172,6 +172,18 @@ declare function lib-view:generate-az-links($basehref as xs:string) {
     ," >"
 };
 
+declare function lib-view:generate-href($href as xs:string) as element(a) {
+    element a {attribute href {$href}, $href}
+};
+
+declare function lib-view:create-paragraph-element($itemname as xs:string, $text as xs:string) as element(p) {
+    element p { element strong {$itemname || ": "}, $text}
+};
+
+declare function lib-view:create-paragraph-with-link($itemname as xs:string, $text as xs:string) as element(p) {
+    element p { element strong {$itemname || ": "}, lib-view:generate-href($text)}
+};
+
 (: TODO - in case it's ever needed?
 declare function eg:string-pad (
   $padString as xs:string?,
