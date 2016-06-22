@@ -34,8 +34,7 @@ declare function local:last-fm-data() as element(div) {
         lib-view:create-paragraph-element("Artist", xs:string($last-fm-data/LastFMAlbumData/lfm/album/artist)),
         lib-view:create-paragraph-with-link("Last FM URI", xs:string($last-fm-data/LastFMAlbumData/lfm/album/url)), 
         lib-view:create-paragraph-element("Musicbrainz id",  xs:string($last-fm-data/LastFMAlbumData/lfm/album/mbid)),
-        (: lib-view:create-paragraph-wth-image( ) :)
-        <p><img src="{fn:data($last-fm-data//image[@size eq 'extralarge'])}" alt="Cover Art" title="Cover Art" class="img-thumbnail" /></p>,
+        lib-view:create-paragraph-wth-image(fn:data($last-fm-data//image[@size eq 'extralarge']), "Cover Art"),
         lib-data:process-tracks($last-fm-data/LastFMAlbumData/lfm/album/tracks)
         
         (: local:show-table()	:)	

@@ -184,6 +184,10 @@ declare function lib-view:create-paragraph-with-link($itemname as xs:string, $te
     element p { element strong {$itemname || ": "}, lib-view:generate-href($text)}
 };
 
+declare function lib-view:create-paragraph-wth-image($image-href as xs:string, $title as xs:string ) {
+    element p { element img { attribute src {$image-href}, attribute alt {$title}, attribute title {$title}, attribute class {"img-thumbnail"} } }
+};
+
 (: TODO - in case it's ever needed?
 declare function eg:string-pad (
   $padString as xs:string?,

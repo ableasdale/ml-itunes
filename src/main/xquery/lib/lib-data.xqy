@@ -91,6 +91,14 @@ declare function lib-data:search-last-fm-for-artist($artist-name as xs:string) {
     )[2]
 };
 
+declare function lib-data:display-last-fm-track-information($trackdata) {
+    lib-view:create-paragraph-element("Name", xs:string($trackdata/LastFMTrackData/lfm/track/name)),
+    lib-view:create-paragraph-element("Artist", xs:string($trackdata/LastFMTrackData/lfm/track/artist)),
+    lib-view:create-paragraph-with-link("Last FM URI", xs:string($trackdata/LastFMTrackData/lfm/track/url)), 
+    lib-view:create-paragraph-element("Musicbrainz id",  xs:string($trackdata/LastFMTrackData/lfm/track/mbid)),
+    lib-view:create-paragraph-wth-image(fn:data($trackdata//image[@size eq 'extralarge']), "Cover Art")
+};
+
 (: End Data Functions for Last FM :)
 
 (: Data Functions for Musicbrainz :)
