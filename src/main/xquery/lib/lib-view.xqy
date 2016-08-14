@@ -39,7 +39,58 @@ declare function lib-view:create-bootstrap-page($title as xs:string, $content as
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.16/d3.js">{" "}</script>,
     <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js">{" "}</script>,
 
+    $additional-resource
+};
 
+declare function lib-view:create-cstack-page($title as xs:string, $content as element(div)){
+    lib-view:create-cstack-page($title, $content, ())
+};
+
+declare function lib-view:create-cstack-page($title as xs:string, $content as element(div), $additional-resource as item()?) {
+    xdmp:set-response-content-type("text/html; charset=utf-8"),
+    '<!DOCTYPE html>',
+    element html {attribute lang {"en"}, attribute class {"no-js"},
+    element head {
+        element meta {attribute charset {"utf-8"}},
+        element meta {attribute http-equiv {"X-UA-Compatible"}, attribute content {"IE = edge"}},
+        element meta {attribute name {"viewport"}, attribute content {"width = device-width, initial-scale = 1"}},
+        element title {$title},
+        (:)
+        element link {
+            attribute rel {"stylesheet"},
+            attribute href {"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"},
+            attribute integrity {"sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"},
+            attribute crossorigin {"anonymous"}
+        },
+        element link {
+            attribute rel {"stylesheet"},
+            attribute href {"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"},
+            attribute integrity {"sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r"},
+            attribute crossorigin {"anonymous"}
+        },:)
+        <link href="/assets/chubby-stacks/css/bootstrap.css" media="screen" rel="stylesheet"/>,
+        <link href="/assets/chubby-stacks/style.css" media="screen" rel="stylesheet"/>,
+        element link {
+            attribute rel {"stylesheet"},
+            attribute href {"/assets/style.css"}
+        }
+    },
+    element body {$content}
+    },
+    <script src="/assets/chubby-stacks/js/libs/modernizr.min.js">{" "}</script>,
+    <script src="/assets/chubby-stacks/js/libs/jquery-1.10.2.min.js">{" "}</script>,
+    <script src="/assets/chubby-stacks/js/libs/jquery-ui.min.js">{" "}</script>,
+    <script src="/assets/chubby-stacks/js/libs/bootstrap.min.js">{" "}</script>,
+    <script src="/assets/chubby-stacks/js/jquery.customInput.js">{" "}</script>,
+    <script src="/assets/chubby-stacks/js/jquery.powerful-placeholder.min.js">{" "}</script>,
+    <script type="text/javascript" src="/assets/chubby-stacks/js/knobRot-0.2.2.js">{" "}</script>,
+    <script src="/assets/chubby-stacks/js/general.js">{" "}</script>,
+    (:
+    <script src="https://code.jquery.com/jquery-2.2.1.min.js">{" "}</script>,
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous">{" "}</script>,
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.16/d3.js">{" "}</script>,
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js">{" "}</script>,
+:)
     $additional-resource
 };
 
@@ -116,7 +167,7 @@ declare function lib-view:database-select() as element(div) {
             element li {attribute class {"dropdown-header"}, "Available Databases:"},
             for $x in xdmp:database-name(xdmp:databases())
             return
-                element li {element a {attribute href {concat("?db=", $x)}, $x}}
+                element li {element a {attribute href {concat("?db =", $x)}, $x}}
         }
     }
 }; :)
@@ -127,10 +178,10 @@ declare function lib-view:generate-table-headings-for-itunes-entries(){
 
 declare function lib-view:generate-table-row-from-itunes-entry($i as element(iTunes-item)) as element(tr) {
     element tr {
-        element td {<a href="/track.xqy?id={xs:string($i/Track-ID)}">{xs:string($i/Track-ID)}</a>},
-        element td {<a href="/track.xqy?id={xs:string($i/Track-ID)}">{xs:string($i/Name)}</a>},
-        element td {<a href="/artist.xqy?artist={xs:string($i/Artist)}">{xs:string($i/Artist)}</a>, " [", <a href="musicbrainz.xqy?artist={xs:string($i/Artist)}">MB</a>, "] [", <a href="lastfm.xqy?artist={xs:string($i/Artist)}">LFM</a>, "]"},
-        element td {<a href="/album.xqy?artist={xs:string($i/Artist)}&amp;album={xs:string($i/Album)}">{xs:string($i/Album)}</a>},
+        element td {<a href="/track.xqy?id ={xs:string($i/Track-ID)}">{xs:string($i/Track-ID)}</a>},
+        element td {<a href="/track.xqy?id ={xs:string($i/Track-ID)}">{xs:string($i/Name)}</a>},
+        element td {<a href="/artist.xqy?artist ={xs:string($i/Artist)}">{xs:string($i/Artist)}</a>, " [", <a href="musicbrainz.xqy?artist={xs:string($i/Artist)}">MB</a>, "] [", <a href="lastfm.xqy?artist ={xs:string($i/Artist)}">LFM</a>, "]"},
+        element td {<a href="/album.xqy?artist ={xs:string($i/Artist)}&amp;album ={xs:string($i/Album)}">{xs:string($i/Album)}</a>},
         element td {xs:string($i/Year)},
         (: Total time is in miliseconds :)
         element td {lib-view:format-track-time(xs:integer($i/Total-Time))},
@@ -162,7 +213,7 @@ declare function lib-view:format-track-time($time as xs:integer) (:as xs:string 
 fn:format-dateTime(xs:dateTime("1970-01-01T00:00:00-00:00") + xs:dayTimeDuration(xs:duration("PT" || fn:round($time div 1000) || "S")), "[H01]:[m01]:[s01]") (: [m1]:[s01]") :)
 (: return $duration - xs:time("00:00:00") :)
 (: fn:minutes-from-duration($duration)||":"||fn:seconds-from-duration($duration) :)
-};
+} ;
 
 declare function lib-view:generate-az-links($basehref as xs:string) {
 "< ",
