@@ -98,12 +98,12 @@ lib-view:create-cstack-page(
                         <div class="tab-content boxed">
                             <div class="tab-pane fade in active clearfix" id="popular3">
                                 <h4>Young gypsy voice</h4>
-                                <div class="tab-image pull-right"><img src="images/temp/tab-img-3.jpg" alt="" /></div>
+                                <div class="tab-image pull-right"><img src="/assets/chubby-stacks/images/temp/tab-img-3.jpg" alt="" /></div>
                                 <p>A cluster balloonist who became the first person to fly the English Channel has Intrepid Jonathan Trappe, 38, took off just like the 78-year-old character Carl Frederickson in the hit movie.</p>
                             </div>
                             <div class="tab-pane fade clearfix" id="recent3">
                                 <h4>Young gypsy voice</h4>
-                                <div class="tab-image"><img src="images/temp/tab-img-1.jpg" alt="" /></div>
+                                <div class="tab-image"><img src="/assets/chubby-stacks/images/temp/tab-img-1.jpg" alt="" /></div>
                                 <p>Intrepid Jonathan Trappe, 38, took off just like the 78-year-old character Carl Frederickson in the hit movie.</p>
                             </div>
                         </div>
@@ -121,25 +121,25 @@ lib-view:create-cstack-page(
                         </ul>
                         <div class="tab-content boxed">
                             <div class="tab-pane fade in active clearfix" id="events">
-                                <div class="tab-image pull-left"><img src="images/temp/tab-img-5.jpg" alt="" /></div>
+                                <div class="tab-image pull-left"><img src="/assets/chubby-stacks/images/temp/tab-img-5.jpg" alt="" /></div>
                                 <h4>4 august 2013</h4>
                                 <p>He made his film debut with a minor part in Back to the Future</p>
                                 <a href="#" class="see-more">See more</a>
                             </div>
                             <div class="tab-pane fade clearfix" id="reminder">
-                                <div class="tab-image pull-right"><img src="images/temp/tab-img-6.jpg" alt="" /></div>
+                                <div class="tab-image pull-right"><img src="/assets/chubby-stacks/images/temp/tab-img-6.jpg" alt="" /></div>
                                 <h4>5 November</h4>
                                 <p>He made his film debut with a minor part in Back to the Future</p>
                                 <a href="#" class="see-more">See more</a>
                             </div>
                             <div class="tab-pane fade clearfix" id="starred">
-                                <div class="tab-image pull-left"><img src="images/temp/tab-img-7.jpg" alt="" /></div>
+                                <div class="tab-image pull-left"><img src="/assets/chubby-stacks/images/temp/tab-img-7.jpg" alt="" /></div>
                                 <h4>11 October</h4>
                                 <p>He made his film debut with a minor part in Back to the Future</p>
                                 <a href="#" class="see-more">See more</a>
                             </div>
                             <div class="tab-pane fade clearfix" id="archive">
-                                <div class="tab-image pull-right"><img src="images/temp/tab-img-8.jpg" alt="" /></div>
+                                <div class="tab-image pull-right"><img src="/assets/chubby-stacks/images/temp/tab-img-8.jpg" alt="" /></div>
                                 <h4>14 September</h4>
                                 <p>He made his film debut with a minor part in Back to the Future</p>
                                 <a href="#" class="see-more">See more</a>
@@ -167,7 +167,7 @@ lib-view:create-cstack-page(
                             <div class="comment-body">
                                 <div class="comment-avatar">
                                     <div class="avatar">
-                                        <img src="images/temp/avatar5.png" alt="" />
+                                        <img src="/assets/chubby-stacks/images/temp/avatar5.png" alt="" />
                                     </div>
                                 </div>
                                 <div class="comment-text">
@@ -189,7 +189,7 @@ lib-view:create-cstack-page(
                             <div class="carousel-inner">
                                 <div class="active item">
                                     <a href="#">
-                                        <img src="images/temp/post-img-1.jpg" alt="" />
+                                        <img src="/assets/chubby-stacks/images/temp/post-img-1.jpg" alt="" />
                                     </a>
                                     <div class="carousel-desc gradient">
                                         <strong>Brave</strong>
@@ -198,7 +198,7 @@ lib-view:create-cstack-page(
                                 </div>
                                 <div class="item">
                                     <a href="#">
-                                        <img src="images/temp/post-img-2.jpg" alt="" />
+                                        <img src="/assets/chubby-stacks/images/temp/post-img-2.jpg" alt="" />
                                     </a>
                                     <div class="carousel-desc gradient">
                                         <strong>Ice Age</strong>
@@ -222,7 +222,7 @@ lib-view:create-cstack-page(
                 <div class="widget-container widget-profile boxed">
                     <div class="inner clearfix">
                         <div class="avatar">
-                            <img src="images/temp/avatar.png" alt="" />
+                            <img src="/assets/chubby-stacks/images/temp/avatar.png" alt="" />
                         </div>
                         <h5>Bradley Cooper</h5>
                         <span class="subtitle">Сomedian actor</span>
