@@ -20,7 +20,6 @@ declare variable $data as element(div) :=
             lib-view:unstyled-ul(for $i in fn:distinct-values( for $i in $album-match return xs:string($i/Artist)||"~"||xs:string($i/Album)) let $j := fn:tokenize($i, "~") return element li {element a {attribute href {"/album.xqy?artist="||$j[1]||"&amp;album="||$j[2]}, $j[2]}, " by ", element a {attribute href {"/artist.xqy?artist="||$j[1]}, $j[1]}}),
             lib-view:h2("Tracks", $TERM),
             lib-view:unstyled-ul(for $i in $track-match return element li {element a {attribute href{"/track.xqy?id="||$i/Track-ID}, $i/Name}})
-
 		}
 	};
 
