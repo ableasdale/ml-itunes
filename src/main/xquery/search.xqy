@@ -3,10 +3,11 @@ xquery version "1.0-ml";
 import module namespace lib-view = "http://www.xmlmachines.com/ml-itunes/lib-view" at "lib/lib-view.xqy";
 
 declare variable $term := xdmp:get-request-field("term");
+declare variable $OPTIONS := ("whitespace-insensitive", "punctuation-insensitive", "case-insensitive");
 
-declare variable $artist-match := cts:search(doc()/iTunes-item, cts:element-word-query(xs:QName("Artist"), $term, ("case-insensitive")));
-declare variable $album-match := cts:search(doc()/iTunes-item, cts:element-word-query(xs:QName("Album"), $term, ("case-insensitive")));
-declare variable $track-match := cts:search(doc()/iTunes-item, cts:element-word-query(xs:QName("Name"), $term, ("case-insensitive")));
+declare variable $artist-match := cts:search(doc()/iTunes-item, cts:element-word-query(xs:QName("Artist"), $term, $OPTIONS));
+declare variable $album-match := cts:search(doc()/iTunes-item, cts:element-word-query(xs:QName("Album"), $term, $OPTIONS));
+declare variable $track-match := cts:search(doc()/iTunes-item, cts:element-word-query(xs:QName("Name"), $term, $OPTIONS));
 
 
 declare variable $data as element(div) :=
