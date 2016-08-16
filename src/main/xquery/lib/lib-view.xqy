@@ -61,13 +61,12 @@ declare function lib-view:create-cstack-page($title as xs:string, $content as el
             attribute integrity {"sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"},
             attribute crossorigin {"anonymous"}
         },
-        (:)
         element link {
             attribute rel {"stylesheet"},
             attribute href {"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"},
             attribute integrity {"sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r"},
             attribute crossorigin {"anonymous"}
-        }, :)
+        },
         <link href="/assets/chubby-stacks/css/prettify.css" media="screen" rel="stylesheet"/>,
         <link href="/assets/chubby-stacks/style.css" media="screen" rel="stylesheet"/>,
         element link {
