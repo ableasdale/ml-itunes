@@ -61,7 +61,7 @@ declare function lib-view:create-cstack-page($title as xs:string, $content as el
             attribute integrity {"sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"},
             attribute crossorigin {"anonymous"}
         },
-(:)
+        (:)
         element link {
             attribute rel {"stylesheet"},
             attribute href {"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"},
@@ -181,10 +181,10 @@ declare function lib-view:generate-table-headings-for-itunes-entries(){
 
 declare function lib-view:generate-table-row-from-itunes-entry($i as element(iTunes-item)) as element(tr) {
     element tr {
-        element td {<a href="/track.xqy?id ={xs:string($i/Track-ID)}">{xs:string($i/Track-ID)}</a>},
-        element td {<a href="/track.xqy?id ={xs:string($i/Track-ID)}">{xs:string($i/Name)}</a>},
-        element td {<a href="/artist.xqy?artist ={xs:string($i/Artist)}">{xs:string($i/Artist)}</a>, " [", <a href="musicbrainz.xqy?artist={xs:string($i/Artist)}">MB</a>, "] [", <a href="lastfm.xqy?artist ={xs:string($i/Artist)}">LFM</a>, "]"},
-        element td {<a href="/album.xqy?artist ={xs:string($i/Artist)}&amp;album ={xs:string($i/Album)}">{xs:string($i/Album)}</a>},
+        element td {<a href="/track.xqy?id={xs:string($i/Track-ID)}">{xs:string($i/Track-ID)}</a>},
+        element td {<a href="/track.xqy?id={xs:string($i/Track-ID)}">{xs:string($i/Name)}</a>},
+        element td {<a href="/artist.xqy?artist={xs:string($i/Artist)}">{xs:string($i/Artist)}</a>, " [", <a href="musicbrainz.xqy?artist={xs:string($i/Artist)}">MB</a>, "] [", <a href="lastfm.xqy?artist={xs:string($i/Artist)}">LFM</a>, "]"},
+        element td {<a href="/album.xqy?artist={xs:string($i/Artist)}&amp;album={xs:string($i/Album)}">{xs:string($i/Album)}</a>},
         element td {xs:string($i/Year)},
         (: Total time is in miliseconds :)
         element td {lib-view:format-track-time(xs:integer($i/Total-Time))},
@@ -225,6 +225,13 @@ element a {attribute href {$basehref||"09"}, "0-9"}, " | ",
 for $i at $pos in 1 to 26
 return ( element a {attribute href {$basehref||codepoints-to-string(64 + $i)}, codepoints-to-string(64 + $i)}, if ($pos ne 26) then (" | ") else ())
 , " >"
+};
+
+declare function lib-view:generate-track-info($trackdata as element (iTunes-item)) as element (dl) {
+    <dl class="dl-horizontal">{
+        for $i in ("Track-ID","Name","Artist","Album-Artist","Album","Genre","Kind","Size","Total-Time","Disc-Number","Disc-Count","Track-Number","Track-Count","Year","Date-Modified","Date-Added","Bit-Rate","Sample-Rate","Comments","Play-Count","Play-Date","Play-Date-UTC","Skip-Count","Skip-Date","Rating","Album-Rating","Album-Rating-Computed","Artwork-Count","Sort-Album-Artist","Sort-Artist","Persistent-ID","Track-Type","Location","File-Folder-Count","Library-Folder-Count")
+        return (element dt {fn:replace($i, "-", " ")}, element dd {fn:data($trackdata/node()[local-name(.) eq $i] )})
+    }</dl>
 };
 
 declare function lib-view:generate-href($href as xs:string) as element (a) {
