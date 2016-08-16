@@ -30,7 +30,7 @@ declare variable $CONTENT as element(div) :=
                 <div class="widget-container boxed">
                     <div class="inner">
                         <div class="tab-image pull-left">
-                        {element img {attribute src {fn:data($DOC/LastFMArtistData/lfm/artist/image[@size eq 'mega'])}}}
+                            {element img {attribute class {"img-thumbnail"}, attribute src {fn:data($DOC/LastFMArtistData/lfm/artist/image[@size eq 'mega'])}}}
                         </div>
                         <p class="pre-wrap">{fn:data($DOC/LastFMArtistData/lfm/artist/bio/content)}</p>
                     </div>
@@ -38,11 +38,9 @@ declare variable $CONTENT as element(div) :=
             </div>
 
             <div class="row">
-                <div class="example-code">
-                    <pre class="prettyprint">
-                        {$DOC}
-                    </pre>
-                </div>
+                <h4>Tags</h4>
+                {for $i in $DOC/LastFMArtistData/lfm/artist/tags/tag
+                return element div {attribute class {"ribbon ribbon-purple"}, element a {attribute href {$i/url}, element span {$i/name}}}}
             </div>
 
             <div class="row">
