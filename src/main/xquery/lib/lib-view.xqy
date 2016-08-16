@@ -249,6 +249,14 @@ declare function lib-view:create-paragraph-wth-image($image-href as xs:string, $
 element p {element img {attribute src {$image-href}, attribute alt {$title}, attribute title {$title}, attribute class {"img-thumbnail"}}}
 };
 
+declare function lib-view:unstyled-ul($li as element(li)*) as element(ul){
+    element ul {attribute class {"list-unstyled"}, $li }
+};
+
+declare function lib-view:h2($main as xs:string, $sub as xs:string?){
+    element h2 {$main||" ", element small {$sub}}
+};
+
 (: TODO - in case it's ever needed?
 declare function eg:string-pad (
   $padString as xs:string?,
