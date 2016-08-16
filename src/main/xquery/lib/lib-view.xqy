@@ -52,24 +52,28 @@ declare function lib-view:create-cstack-page($title as xs:string, $content as el
     element html {attribute lang {"en"}, attribute class {"no-js"},
     element head {
         element meta {attribute charset {"utf-8"}},
-        element meta {attribute http-equiv {"X-UA-Compatible"}, attribute content {"IE = edge"}},
-        element meta {attribute name {"viewport"}, attribute content {"width = device-width, initial-scale = 1"}},
+        element meta {attribute name {"viewport"}, attribute content {"width=device-width,initial-scale=1"}},
         element title {$title},
-        (:)
+
         element link {
             attribute rel {"stylesheet"},
             attribute href {"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"},
             attribute integrity {"sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"},
             attribute crossorigin {"anonymous"}
         },
+(:)
         element link {
             attribute rel {"stylesheet"},
             attribute href {"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"},
             attribute integrity {"sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r"},
             attribute crossorigin {"anonymous"}
-        },:)
-        <link href="/assets/chubby-stacks/css/bootstrap.css" media="screen" rel="stylesheet"/>,
+        }, :)
+        <link href="/assets/chubby-stacks/css/prettify.css" media="screen" rel="stylesheet"/>,
         <link href="/assets/chubby-stacks/style.css" media="screen" rel="stylesheet"/>,
+        element link {
+            attribute rel {"stylesheet"},
+            attribute href {"/assets/docs.css"}
+        },
         element link {
             attribute rel {"stylesheet"},
             attribute href {"/assets/style.css"}
@@ -80,17 +84,16 @@ declare function lib-view:create-cstack-page($title as xs:string, $content as el
     <script src="/assets/chubby-stacks/js/libs/modernizr.min.js">{" "}</script>,
     <script src="/assets/chubby-stacks/js/libs/jquery-1.10.2.min.js">{" "}</script>,
     <script src="/assets/chubby-stacks/js/libs/jquery-ui.min.js">{" "}</script>,
-    <script src="/assets/chubby-stacks/js/libs/bootstrap.min.js">{" "}</script>,
+
     <script src="/assets/chubby-stacks/js/jquery.customInput.js">{" "}</script>,
     <script src="/assets/chubby-stacks/js/jquery.powerful-placeholder.min.js">{" "}</script>,
     <script type="text/javascript" src="/assets/chubby-stacks/js/knobRot-0.2.2.js">{" "}</script>,
     <script src="/assets/chubby-stacks/js/general.js">{" "}</script>,
-    (:
-    <script src="https://code.jquery.com/jquery-2.2.1.min.js">{" "}</script>,
+
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous">{" "}</script>,
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.16/d3.js">{" "}</script>,
     <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js">{" "}</script>,
-:)
+
     $additional-resource
 };
 
