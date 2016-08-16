@@ -212,10 +212,10 @@ return element th {attribute class {"text-center"}, $header}
 declare function lib-view:format-track-time($time as xs:integer) (:as xs:string :) {
 (:let $duration := xs:duration("PT" || fn:round($time div 1000) || "S" ) :)
 (: TODO - Picture format omits hours - I might want to add this back in -- conditionally.. [H01]:[m01]:[s01] - for those times that need it :)
-fn:format-dateTime(xs:dateTime("1970-01-01T00:00:00-00:00") + xs:dayTimeDuration(xs:duration("PT" || fn:round($time div 1000) || "S")), "[H01]:[m01]:[s01]") (: [m1]:[s01]") :)
+    fn:format-dateTime(xs:dateTime("1970-01-01T00:00:00-00:00") + xs:dayTimeDuration(xs:duration("PT" || fn:round($time div 1000) || "S")), "[H01]:[m01]:[s01]") (: [m1]:[s01]") :)
 (: return $duration - xs:time("00:00:00") :)
 (: fn:minutes-from-duration($duration)||":"||fn:seconds-from-duration($duration) :)
-} ;
+};
 
 declare function lib-view:generate-az-links($basehref as xs:string) {
 "< ",
@@ -234,19 +234,19 @@ declare function lib-view:generate-track-info($trackdata as element (iTunes-item
 };
 
 declare function lib-view:generate-href($href as xs:string) as element (a) {
-element a {attribute href {$href}, $href}
+    element a {attribute href {$href}, $href}
 };
 
 declare function lib-view:create-paragraph-element($itemname as xs:string, $text as xs:string) as element (p) {
-element p {element strong {$itemname || ": "}, $text}
+    element p {element strong {$itemname || ": "}, $text}
 };
 
 declare function lib-view:create-paragraph-with-link($itemname as xs:string, $text as xs:string) as element (p) {
-element p {element strong {$itemname || ": "}, lib-view:generate-href($text)}
+    element p {element strong {$itemname || ": "}, lib-view:generate-href($text)}
 };
 
 declare function lib-view:create-paragraph-wth-image($image-href as xs:string, $title as xs:string ) {
-element p {element img {attribute src {$image-href}, attribute alt {$title}, attribute title {$title}, attribute class {"img-thumbnail"}}}
+    element p {element img {attribute src {$image-href}, attribute alt {$title}, attribute title {$title}, attribute class {"img-thumbnail"}}}
 };
 
 declare function lib-view:unstyled-ul($li as element(li)*) as element(ul){
@@ -255,6 +255,44 @@ declare function lib-view:unstyled-ul($li as element(li)*) as element(ul){
 
 declare function lib-view:h2($main as xs:string, $sub as xs:string?){
     element h2 {$main||" ", element small {$sub}}
+};
+
+
+(: Newer style navigation :)
+declare function lib-view:nav() as element(ul) {
+<ul class="menu clearfix gradient">
+<li><a href="#"><span class="glyphicon glyphicon-home">{" "}</span></a></li>
+<li>
+<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dashboard <span class="caret">{" "}</span></a>
+<ul class="dropdown-menu" role="menu">
+<li><a href="/">Overview</a></li>
+<li><a href="/artists.xqy">Artists</a></li>
+<li><a href="/albums.xqy">Albums</a></li>
+</ul>
+</li>
+<li>
+<a href="#" class="dropdown-toggle" data-toggle="dropdown">Music Tools <span class="caret"></span></a>
+<ul class="dropdown-menu" role="menu">
+<li><a href="#"><span class="glyphicon glyphicon-download-alt" aria-hidden="true">{" "}</span> iTunes XML</a></li>
+</ul>
+</li>
+<!-- li><a href="#">Home</a></li>
+        <li class="hover"><a href="#">About</a>
+            <ul>
+                <li><a href="#">Web design</a></li>
+                <li><a href="#">User interface</a></li>
+                <li><a href="#">Social media</a>
+                    <ul>
+                        <li><a href="#">Gallery images</a></li>
+                        <li><a href="#">OneByOne Slider</a></li>
+                        <li><a href="#">Audio Player</a></li>
+                        <li><a href="#">Video Player</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li><a href="#">Contacts</a></li-->
+</ul>
 };
 
 (: TODO - in case it's ever needed?

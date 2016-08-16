@@ -14,3 +14,4 @@ textarea {
     height:15em;
 }*/
 .menu ul li a:before {width:0;}
+p.pre-wrap {white-space: pre-wrap;}

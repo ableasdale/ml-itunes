@@ -16,42 +16,6 @@ declare function local:show-table() {
     </table>
 };
 
-declare function local:nav() as element(ul){
-    <ul class="menu clearfix gradient">
-        <li><a href="#"><span class="glyphicon glyphicon-home">{" "}</span></a></li>
-        <li>
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dashboard <span class="caret">{" "}</span></a>
-            <ul class="dropdown-menu" role="menu">
-                <li><a href="/">Overview</a></li>
-                <li><a href="/artists.xqy">Artists</a></li>
-                <li><a href="/albums.xqy">Albums</a></li>
-            </ul>
-        </li>
-        <li>
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Music Tools <span class="caret"></span></a>
-            <ul class="dropdown-menu" role="menu">
-                <li><a href="#"><span class="glyphicon glyphicon-download-alt" aria-hidden="true">{" "}</span> iTunes XML</a></li>
-            </ul>
-        </li>
-        <!-- li><a href="#">Home</a></li>
-        <li class="hover"><a href="#">About</a>
-            <ul>
-                <li><a href="#">Web design</a></li>
-                <li><a href="#">User interface</a></li>
-                <li><a href="#">Social media</a>
-                    <ul>
-                        <li><a href="#">Gallery images</a></li>
-                        <li><a href="#">OneByOne Slider</a></li>
-                        <li><a href="#">Audio Player</a></li>
-                        <li><a href="#">Video Player</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </li>
-        <li><a href="#">Contacts</a></li-->
-    </ul>
-};
-
 declare function local:dropdown() as element(div){
     <div class="dropdown gradient">
         <a id="drop" href="#" role="button" class="dropdown-toggle gradient" data-toggle="dropdown"><span>{" "}</span>Settings</a>
@@ -143,7 +107,7 @@ declare variable $CONTENT as element(div) :=
 
             <div class="row">
                 <h2>MarkLogic iTunes <small>Demo page</small></h2>
-                {local:nav()}
+                {lib-view:nav()}
             </div>
             <div class="row">{local:show-table()}</div>
 
