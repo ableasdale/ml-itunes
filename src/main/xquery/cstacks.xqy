@@ -2,6 +2,42 @@ xquery version "1.0-ml";
 
 import module namespace lib-view = "http://www.xmlmachines.com/ml-itunes/lib-view" at "lib/lib-view.xqy";
 
+declare function local:show-table() {
+    <table class="table table-striped table-bordered">
+        {lib-view:generate-table-headings-for-itunes-entries()}
+        <tbody>
+            {
+            (: Works but annoyingly slow - fn:subsequence((for $i in (//iTunes-item) order by fn:number($i/Track-ID) :)
+                for $j in cts:element-values(xs:QName("Track-ID"), (), ("limit=100"))
+                let $i := doc()/iTunes-item/Track-ID[. eq $j]/..
+                return lib-view:generate-table-row-from-itunes-entry($i)
+            }
+        </tbody>
+    </table>
+};
+
+declare function local:nav() as element(ul){
+    <ul class="menu clearfix gradient margin-100">
+        <li><a href="#"><span class="glyphicon glyphicon-home"></span></a></li>
+        <li><a href="#">Home</a></li>
+        <li class="hover"><a href="#">About</a>
+            <ul>
+                <li><a href="#">Web design</a></li>
+                <li><a href="#">User interface</a></li>
+                <li><a href="#">Social media</a>
+                    <ul>
+                        <li><a href="#">Gallery images</a></li>
+                        <li><a href="#">OneByOne Slider</a></li>
+                        <li><a href="#">Audio Player</a></li>
+                        <li><a href="#">Video Player</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li><a href="#">Contacts</a></li>
+    </ul>
+};
+
 declare function local:dropdown() as element(div){
     <div class="dropdown gradient">
         <a id="drop" href="#" role="button" class="dropdown-toggle gradient" data-toggle="dropdown"><span>{" "}</span>Settings</a>
@@ -90,6 +126,12 @@ declare function local:carousel() as element(div) {
 declare variable $CONTENT as element(div) :=
     <div class="body-wrap">
         <div class="container">
+            <div class="row">
+                <h2>MarkLogic iTunes <small>Demo page</small></h2>
+                {local:nav()}
+            </div>
+            <div class="row">{local:show-table()}</div>
+
             <div class="example">
                 <div class="example-item gradient">
                     <h1>h1</h1>
@@ -118,25 +160,7 @@ declare variable $CONTENT as element(div) :=
                     </pre>
                 </div>
 
-                <ul class="menu clearfix gradient margin-100">
-                    <li><a href="#"><span class="glyphicon glyphicon-home"></span></a></li>
-                    <li><a href="#">Home</a></li>
-                    <li class="hover"><a href="#">About</a>
-                        <ul>
-                            <li><a href="#">Web design</a></li>
-                            <li><a href="#">User interface</a></li>
-                            <li><a href="#">Social media</a>
-                                <ul>
-                                    <li><a href="#">Gallery images</a></li>
-                                    <li><a href="#">OneByOne Slider</a></li>
-                                    <li><a href="#">Audio Player</a></li>
-                                    <li><a href="#">Video Player</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li><a href="#">Contacts</a></li>
-                </ul>
+
 
 
 
