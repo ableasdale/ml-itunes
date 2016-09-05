@@ -8,7 +8,7 @@ declare function local:show-table() {
         <tbody>
             {
             (: Works but annoyingly slow - fn:subsequence((for $i in (//iTunes-item) order by fn:number($i/Track-ID) :)
-                for $j in cts:element-values(xs:QName("Track-ID"), (), ("limit=100"))
+                for $j in cts:element-values(xs:QName("Track-ID"), (), ("limit=50"))
                 let $i := doc()/iTunes-item/Track-ID[. eq $j]/..
                 return lib-view:generate-table-row-from-itunes-entry($i)
             }
@@ -37,6 +37,21 @@ declare function local:search() as element(div){
                 </span>
                 <div class="field_text lightPlaceholder">
                     <input name="search2" value="" type="text" placeholder="Type word here" />
+                </div>
+            </form>
+        </div>
+    </div>
+};
+
+declare function local:search-alt() as element(div){
+    <div class="widget-container widget-search boxed">
+        <div class="inner">
+            <form action="/search.xqy" method="post">
+                <span class="btn btn-middle btn-gray">
+                    <input type="submit" value="Search" />
+                </span>
+                <div class="field_text">
+                    <input name="term" value="" type="text" placeholder="Type word here" />
                 </div>
             </form>
         </div>
@@ -101,14 +116,74 @@ declare function local:carousel() as element(div) {
     </div>
 };
 
+declare function local:player(){
+    <div class="widget-container widget-audio boxed">
+        <div id="jquery_jplayer_1" class="jp-jplayer">{" "}</div>
+        <div id="jp_container_1" class="jp-audio">
+            <div class="jp-gui jp-interface">
+                <div class="jp-controls">
+                    <div class="song-title">{" "}</div>
+                    <div class="jp-current-time">{" "}</div>
+                    <div class="jp-duration">{" "}</div>
+                    <div class="clear">{" "}</div>
+                    <div class="jp-progress">
+                        <div class="jp-seek-bar">
+                            <div class="jp-play-bar gradient">
+                                <div class="jp-seek-handle">{" "}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="jp-controls jp-buttons">
+                    <a href="javascript:;" class="jp-mute" tabindex="1" title="mute">mute</a><!--
+                --><a href="javascript:;" class="jp-unmute" tabindex="1" title="unmute">unmute</a><!--
+                --><a href="javascript:;" class="jp-previous disabled" tabindex="1">previous</a><!--
+                --><a href="javascript:;" class="jp-play" tabindex="1">play</a><!--
+                --><a href="javascript:;" class="jp-pause" tabindex="1">pause</a><!--
+                --><a href="javascript:;" class="jp-next" tabindex="1">next</a><!--
+                --><a href="javascript:;" class="jp-stop" tabindex="1">stop</a><!--
+                --><a href="javascript:;" class="jp-repeat" tabindex="1" title="repeat">repeat</a><!--
+                --><a href="javascript:;" class="jp-repeat-off" tabindex="1" title="repeat off">repeat off</a><!--
+                --><a href="javascript:;" class="jp-volume-max" tabindex="1" title="max volume">max volume</a><!--
+                --><a href="javascript:;" class="jp-shuffle" tabindex="1" title="shuffle">shuffle</a><!--
+                --><a href="javascript:;" class="jp-shuffle-off" tabindex="1" title="shuffle off">shuffle off</a>
+                </div>
+                <div class="jp-volume-bar">
+                    <div class="jp-volume-bar-value">{" "}</div>
+                </div>
+            </div>
+            <div class="jp-playlist">
+                <ul class="jp-playlist-inner">
+                    <li>{" "}</li>
+                </ul>
+            </div>
+            <div class="jp-no-solution">
+                <span>Update Required</span>
+                <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>
+            </div>
+        </div>
+    </div>
+};
+
+
 declare variable $CONTENT as element(div) :=
     <div class="body-wrap">
         <div class="container">
 
             <div class="row">
                 <h2>MarkLogic iTunes <small>Demo page</small></h2>
-                {lib-view:nav()}
             </div>
+
+            <div class="row">
+                <div class="col-sm-8">{lib-view:nav()}</div>
+                <div class="col-sm-4">{local:search-alt()}</div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">{local:player()}</div>
+
+            </div>
+
             <div class="row">{local:show-table()}</div>
 
             <div class="example">

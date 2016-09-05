@@ -69,6 +69,7 @@ declare function lib-view:create-cstack-page($title as xs:string, $content as el
         },
         <link href="/assets/chubby-stacks/css/prettify.css" media="screen" rel="stylesheet"/>,
         <link href="/assets/chubby-stacks/style.css" media="screen" rel="stylesheet"/>,
+        <link href="/assets/chubby-stacks/css/jplayer.css" media="screen" rel="stylesheet" />,
         element link {
             attribute rel {"stylesheet"},
             attribute href {"/assets/docs.css"}
@@ -88,6 +89,10 @@ declare function lib-view:create-cstack-page($title as xs:string, $content as el
     <script src="/assets/chubby-stacks/js/jquery.powerful-placeholder.min.js">{" "}</script>,
     <script type="text/javascript" src="/assets/chubby-stacks/js/knobRot-0.2.2.js">{" "}</script>,
     <script src="/assets/chubby-stacks/js/general.js">{" "}</script>,
+    <script src="/assets/init.js">{" "}</script>,
+
+    <script src="/assets/chubby-stacks/js/jquery.jplayer.min.js">{" "}</script>,
+    <script src="/assets/chubby-stacks/js/jplayer.playlist.min.js">{" "}</script>,
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous">{" "}</script>,
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.16/d3.js">{" "}</script>,
@@ -212,7 +217,7 @@ return element th {attribute class {"text-center"}, $header}
 declare function lib-view:format-track-time($time as xs:integer) (:as xs:string :) {
 (:let $duration := xs:duration("PT" || fn:round($time div 1000) || "S" ) :)
 (: TODO - Picture format omits hours - I might want to add this back in -- conditionally.. [H01]:[m01]:[s01] - for those times that need it :)
-    fn:format-dateTime(xs:dateTime("1970-01-01T00:00:00-00:00") + xs:dayTimeDuration(xs:duration("PT" || fn:round($time div 1000) || "S")), "[H01]:[m01]:[s01]") (: [m1]:[s01]") :)
+fn:format-dateTime(xs:dateTime("1970-01-01T00:00:00-00:00") + xs:dayTimeDuration(xs:duration("PT" || fn:round($time div 1000) || "S")), "[H01]:[m01]:[s01]") (: [m1]:[s01]") :)
 (: return $duration - xs:time("00:00:00") :)
 (: fn:minutes-from-duration($duration)||":"||fn:seconds-from-duration($duration) :)
 };
@@ -227,41 +232,41 @@ return ( element a {attribute href {$basehref||codepoints-to-string(64 + $i)}, c
 };
 
 declare function lib-view:generate-track-info($trackdata as element (iTunes-item)) as element (dl) {
-    <dl class="dl-horizontal">{
-        for $i in ("Track-ID","Name","Artist","Album-Artist","Album","Genre","Kind","Size","Total-Time","Disc-Number","Disc-Count","Track-Number","Track-Count","Year","Date-Modified","Date-Added","Bit-Rate","Sample-Rate","Comments","Play-Count","Play-Date","Play-Date-UTC","Skip-Count","Skip-Date","Rating","Album-Rating","Album-Rating-Computed","Artwork-Count","Sort-Album-Artist","Sort-Artist","Persistent-ID","Track-Type","Location","File-Folder-Count","Library-Folder-Count")
-        return (element dt {fn:replace($i, "-", " ")}, element dd {fn:data($trackdata/node()[local-name(.) eq $i] )})
-    }</dl>
+<dl class="dl-horizontal">{
+for $i in ("Track-ID", "Name", "Artist", "Album-Artist", "Album", "Genre", "Kind", "Size", "Total-Time", "Disc-Number", "Disc-Count", "Track-Number", "Track-Count", "Year", "Date-Modified", "Date-Added", "Bit-Rate", "Sample-Rate", "Comments", "Play-Count", "Play-Date", "Play-Date-UTC", "Skip-Count", "Skip-Date", "Rating", "Album-Rating", "Album-Rating-Computed", "Artwork-Count", "Sort-Album-Artist", "Sort-Artist", "Persistent-ID", "Track-Type", "Location", "File-Folder-Count", "Library-Folder-Count")
+return ( element dt {fn:replace($i, "-", " ")}, element dd {fn:data($trackdata/ node ()[local-name(.) eq $i] )})
+}</dl>
 };
 
 declare function lib-view:generate-href($href as xs:string) as element (a) {
-    element a {attribute href {$href}, $href}
+element a {attribute href {$href}, $href}
 };
 
 declare function lib-view:create-paragraph-element($itemname as xs:string, $text as xs:string) as element (p) {
-    element p {element strong {$itemname || ": "}, $text}
+element p {element strong {$itemname || ": "}, $text}
 };
 
 declare function lib-view:create-paragraph-with-link($itemname as xs:string, $text as xs:string) as element (p) {
-    element p {element strong {$itemname || ": "}, lib-view:generate-href($text)}
+element p {element strong {$itemname || ": "}, lib-view:generate-href($text)}
 };
 
 declare function lib-view:create-paragraph-wth-image($image-href as xs:string, $title as xs:string ) {
-    element p {element img {attribute src {$image-href}, attribute alt {$title}, attribute title {$title}, attribute class {"img-thumbnail"}}}
+element p {element img {attribute src {$image-href}, attribute alt {$title}, attribute title {$title}, attribute class {"img-thumbnail"}}}
 };
 
-declare function lib-view:unstyled-ul($li as element(li)*) as element(ul){
-    element ul {attribute class {"list-unstyled"}, $li }
+declare function lib-view:unstyled-ul($li as element (li)*) as element (ul){
+element ul {attribute class {"list-unstyled"}, $li}
 };
 
 declare function lib-view:h2($main as xs:string, $sub as xs:string?){
-    element h2 {$main||" ", element small {$sub}}
+element h2 {$main||" ", element small {$sub}}
 };
 
 
 (: Newer style navigation :)
 declare function lib-view:nav() as element(ul) {
 <ul class="menu clearfix gradient">
-<li><a href="#"><span class="glyphicon glyphicon-home">{" "}</span></a></li>
+<li><a href="/"><span class="glyphicon glyphicon-home">{" "}</span></a></li>
 <li>
 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dashboard <span class="caret">{" "}</span></a>
 <ul class="dropdown-menu" role="menu">
@@ -292,6 +297,8 @@ declare function lib-view:nav() as element(ul) {
             </ul>
         </li>
         <li><a href="#">Contacts</a></li-->
+
+
 </ul>
 };
 
