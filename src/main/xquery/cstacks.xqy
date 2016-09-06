@@ -135,9 +135,9 @@ declare function local:player(){
                     </div>
                 </div>
                 <div class="jp-controls jp-buttons">
-                    <a href="javascript:;" class="jp-mute" tabindex="1" title="mute">mute</a><!--
-                --><a href="javascript:;" class="jp-unmute" tabindex="1" title="unmute">unmute</a><!--
-                --><a href="javascript:;" class="jp-previous disabled" tabindex="1">previous</a><!--
+                    <a href="javascript:;" class="jp-mute" tabindex="1" title="mute">mute</a>
+                    <a href="javascript:;" class="jp-unmute" tabindex="1" title="unmute">unmute</a>
+                    <a href="javascript:;" class="jp-previous disabled" tabindex="1">previous</a><!--
                 --><a href="javascript:;" class="jp-play" tabindex="1">play</a><!--
                 --><a href="javascript:;" class="jp-pause" tabindex="1">pause</a><!--
                 --><a href="javascript:;" class="jp-next" tabindex="1">next</a><!--
